@@ -1,0 +1,41 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 10 - Раскрашиваем треугольник.</h2></font>
+Давайте за основу возьмем проект из предыдущего шага. Назовем новый проект <b>ColorTriQuad</b>.
+<p>Скопируем туда файл <b>triquad.cpp</b> и переименуем его в <b>ColorTriQuad.cpp</b>. Не забудьте настроить проект. ;)
+<p>Все изменения пока будут касаться только функци <b>Draw()</b>
+<pre>
+GLvoid Draw(GLvoid)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+
+	glTranslatef(-1.5f, 0.0f, -5.0f);
+	glBegin(GL_TRIANGLES);
+		glColor3f(1.0f, 0.0f, 0.0f);	// установим для этой вершины красный цвет
+		glVertex3f( 0.0f, 1.0f, 0.0f);	// Top
+		glColor3f(0.0f, 1.0f, 0.0f);	// для этой зеленый
+		glVertex3f(-1.0f,-1.0f, 0.0f);	// Bottom Left
+		glColor3f(0.0f, 0.0f, 1.0f);	// а для этой синий
+		glVertex3f( 1.0f,-1.0f, 0.0f);	// Bottom Right
+	glEnd();
+
+	glLoadIdentity();
+	glTranslatef(1.5f, 0.0f, -5.0f);
+	glColor3f(0.3f, 0.2f, 0.4f);		// установим цвет для всего квадрата
+	glBegin(GL_QUADS);
+		glVertex3f(-1.0f, 1.0f, 0.0f);	// Top Left
+		glVertex3f( 1.0f, 1.0f, 0.0f);	// Top Right
+		glVertex3f( 1.0f,-1.0f, 0.0f);	// Bottom Right
+		glVertex3f(-1.0f,-1.0f, 0.0f);	// Bottom Left
+	glEnd();
+}
+</pre>
+Компилируем. Смотрим, что получилось. Треугольничек замечательный.
+<p>А когда он научится крутиться (а это будет в следующем шаге), то будет просто великолепен ;)
+<p><hr><center><font size=2><a href=prog/10.zip>Загрузить проект</a> | <a href=9.html>Предыдущий шаг</a> | <a href=11.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

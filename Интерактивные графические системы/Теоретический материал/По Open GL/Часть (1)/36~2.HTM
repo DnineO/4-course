@@ -1,0 +1,89 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 36 - Буффер Глубины.</h2></font>
+<b>OpenGL</b> по своей архитектуре представляет из себя набор так называемых буфферов, через которые проходит наше изображение прежде чем попасть на монитор. Можно считать, что то что находится на мониторе  является так называемым буффером кадра. Есть еще также буффер глубины, который мы будем использовать  в этом шаге, буффет трафарета (мы им уже пользовались, только не концентрировали на этом внимание), буффер аккумулятора и т.д.
+<p>Что такое буффер глубины, я надеюсь, объяснять не надо. Из названия понятно, что это некая область памяти, которая хранит в себе <b>Z</b> координаты (еще его называют <b>Z-Buffer</b>). По собственному опыту знаю, что для программиста любая теория должна пройти через руки. Поэтому давайте посмотрим пример.
+<p>Как обычно - стандартный проект. Добавляем пункт меню и делаем его обработчик. Добавляем переменную-флаг <b>BOOL m_bDepth</b>. Инициализируем ее в конструкторе.
+<p>Исправляем <b>OnDraw(...)</b>:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+	CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0);
+
+	if(m_bDepth)
+	{
+		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+	} else {
+		glClear (GL_COLOR_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
+	}
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum (-1, 1, -1, 1, 3, 15);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	glTranslatef(0.0f, 0.0f, -9.0);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glRotatef(30.0, 1.0, 0.0, 0.0);
+	glRotatef(70.0, 0.0, 1.0, 0.0);
+
+	DrawAxis();
+
+	glColor3f (0.5f, 0.5f, 1.0f);
+	DrawCube();
+
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+Буффер глубины включается при помощи команды <b>glEnable(GL_DEPTH_TEST)</b>.
+<p>На всякий случай я обнуляю буффер глубины в начале <b>OnDraw</b>, иначе, если ваша сцена динамическая, в буффере могут остаться значения от предыдущих вызовов.
+<p>Для удобства я вынес рисование осей координат в отдельную функцию. Её код таков:
+<pre>
+GLvoid CExampleView::DrawAxis()
+{
+	glColor3f(0.0f, 1.0f, 1.0f);
+	glPushMatrix();
+	glScalef(0.75f, 0.75f, 0.75f);
+	glBegin (GL_LINES);
+		glVertex3f (0.0f, 0.0f, 0.0f);
+		glVertex3f (3.0f, 0.0f, 0.0f);
+		glVertex3f (0.0f, 0.0f, 0.0f);
+		glVertex3f (0.0f, 3.0f, 0.0f);
+		glVertex3f (0.0f, 0.0f, 0.0f);
+		glVertex3f (0.0f, 0.0f, 3.0f);
+	glEnd();
+	glPopMatrix();
+}
+</pre>
+А вот и код обработчика:
+<pre>
+void CExampleView::OnViewDepth() 
+{
+	// TODO: Add your command handler code here
+	if(m_bDepth)
+		m_bDepth = FALSE;
+	else
+		m_bDepth = TRUE;
+	InvalidateRect(NULL, FALSE);
+}
+</pre>
+Вот и все. Пощелкайте меню. И все станет понятно.
+<p><hr><center><font size=2><a href=prog/36.zip>Загрузить проект</a> | <a href=35.html>Предыдущий шаг</a> | <a href=37.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

@@ -1,0 +1,147 @@
+BODY {
+	PADDING-RIGHT: 15px; PADDING-LEFT: 15px; FONT-SIZE: x-small; PADDING-BOTTOM: 15px; COLOR: #000000; PADDING-TOP: 15px; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: justify
+}
+P {
+	FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; TEXT-ALIGN: justify
+}
+UL {
+	FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; TEXT-ALIGN: justify
+}
+OL {
+	FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; TEXT-ALIGN: justify
+}
+DL {
+	FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; TEXT-ALIGN: justify
+}
+H1 {
+	FONT-WEIGHT: bolder; FONT-SIZE: large; COLOR: #4580a0; FONT-FAMILY: arial; TEXT-ALIGN: center
+}
+H1 SPAN.subtitle {
+	FONT-WEIGHT: lighter; FONT-SIZE: small; FONT-FAMILY: verdana,tahoma
+}
+H2 {
+	FONT-WEIGHT: lighter; FONT-SIZE: large; COLOR: #4580a0; FONT-FAMILY: verdana,tahoma; TEXT-ALIGN: left; FONT-VARIANT: small-caps
+}
+H3 {
+	FONT-WEIGHT: bold; FONT-SIZE: small; COLOR: #4580a0; FONT-FAMILY: tahoma,verdana; TEXT-ALIGN: left
+}
+H4 {
+	FONT-WEIGHT: bold; FONT-SIZE: x-small; MARGIN-LEFT: 0.1em; COLOR: #4580a0; FONT-FAMILY: tahoma,verdana; TEXT-ALIGN: left
+}
+H5 {
+	FONT-WEIGHT: bold; FONT-SIZE: x-small; FONT-FAMILY: tahoma,verdana; TEXT-ALIGN: right
+}
+H5 .title {
+	COLOR: #3570a0
+}
+H5 .value {
+	FONT-STYLE: italic; FONT-FAMILY: verdana,tahoma
+}
+H6 {
+	FONT-WEIGHT: lighter; FONT-SIZE: x-small; FONT-FAMILY: tahoma,verdana; TEXT-ALIGN: right
+}
+H6 .title {
+	COLOR: #3570a0
+}
+H6 .value {
+	FONT-STYLE: italic; FONT-FAMILY: arial
+}
+TABLE {
+	MARGIN: 5px
+}
+TD.contents {
+	FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #ffffff
+}
+TD {
+	FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #f4f4f4
+}
+TH {
+	FONT-SIZE: x-small; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #d4d4d4
+}
+PRE {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-SIZE: x-small; PADDING-BOTTOM: 10px; MARGIN: 0px; PADDING-TOP: 10px; FONT-FAMILY: "courier new"
+}
+CODE {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-SIZE: x-small; PADDING-BOTTOM: 10px; MARGIN: 0px; PADDING-TOP: 10px; FONT-FAMILY: "courier new"
+}
+.code {
+	BACKGROUND-COLOR: #f4f4f4
+}
+.warning {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0.5em; FONT-SIZE: x-small; PADDING-BOTTOM: 0.5em; COLOR: #ff5555; PADDING-TOP: 0.5em; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #ffe4e4; TEXT-ALIGN: justify
+}
+.warning TD {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0.5em; FONT-SIZE: x-small; PADDING-BOTTOM: 0.5em; COLOR: #ff5555; PADDING-TOP: 0.5em; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #ffe4e4; TEXT-ALIGN: justify
+}
+.note {
+	PADDING-RIGHT: 0.8em; PADDING-LEFT: 0.8em; FONT-SIZE: x-small; PADDING-BOTTOM: 0.8em; COLOR: #506580; PADDING-TOP: 0.8em; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #f5f9ff; TEXT-ALIGN: justify
+}
+.note TD {
+	PADDING-RIGHT: 0.8em; PADDING-LEFT: 0.8em; FONT-SIZE: x-small; PADDING-BOTTOM: 0.8em; COLOR: #506580; PADDING-TOP: 0.8em; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #f5f9ff; TEXT-ALIGN: justify
+}
+.tip {
+	PADDING-RIGHT: 0.8em; PADDING-LEFT: 0.8em; FONT-SIZE: x-small; PADDING-BOTTOM: 0.8em; COLOR: #759545; PADDING-TOP: 0.8em; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #f5fff5; TEXT-ALIGN: justify
+}
+.tip TD {
+	PADDING-RIGHT: 0.8em; PADDING-LEFT: 0.8em; FONT-SIZE: x-small; PADDING-BOTTOM: 0.8em; COLOR: #759545; PADDING-TOP: 0.8em; FONT-FAMILY: verdana,tahoma; BACKGROUND-COLOR: #f5fff5; TEXT-ALIGN: justify
+}
+.title {
+	FONT-FAMILY: tahoma
+}
+.warning P {
+	MARGIN: 0.3em 0em 0.1em
+}
+.warning PRE {
+	MARGIN: 0.3em 0em 0.1em
+}
+.note P {
+	MARGIN: 0.3em 0em 0.1em
+}
+.note PRE {
+	MARGIN: 0.3em 0em 0.1em
+}
+.tip P {
+	MARGIN: 0.3em 0em 0.1em
+}
+.tip PRE {
+	MARGIN: 0.3em 0em 0.1em
+}
+.warning .code {
+	BACKGROUND-COLOR: #ffe4e4
+}
+.note .code {
+	BACKGROUND-COLOR: #f5f9ff
+}
+.tip .code {
+	BACKGROUND-COLOR: #f5fff5
+}
+P I {
+	FONT-FAMILY: arial
+}
+A {
+	COLOR: #6677aa; FONT-FAMILY: tahoma; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #8899cc; TEXT-DECORATION: underline
+}
+SPAN.COMMENT {
+	COLOR: #008800
+}
+SPAN.STRING {
+	COLOR: #007777
+}
+SPAN.CHARACTER {
+	COLOR: black
+}
+SPAN.KEYWORD {
+	COLOR: blue
+}
+SPAN.PREPROCESSOR {
+	COLOR: blue
+}
+SPAN.NUMBER {
+	COLOR: black
+}
+SPAN.ACCENT {
+	COLOR: red
+}

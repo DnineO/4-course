@@ -1,0 +1,43 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 23 - Замкнутые линии.</h2></font>
+В <a href=21.html>шаге 21</a> мы рассмотрели 2 вида рисования линий: обычный и в режиме <b>strip</b>. В этом очень маленьком примере мы рассмотрим еще 1 вид линии - режим <b>loop</b>.
+<p>Режим <b>loop</b> отличается от режима <b>strip</b> только тем, что последняя вершина автоматически будет соединена с первой. Рассмотрим пример.
+Создайте как обычно проект и функцию <b>OnDraw</b> сделайте такой:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glLineWidth (20);                   // размер точек
+	glColor3f (1.0, 0.0, 0.5);          // текущий цвет примитивов
+
+	glBegin (GL_LINE_LOOP);
+		glVertex2f(0,0.5);
+		glVertex2f(0.5,-0.5);
+		glVertex2f(-0.5,-0.5);
+	glEnd();
+}
+</pre>
+Если бы мы указали вместо <b>GL_LINE_LOOP</b> режим <b>GL_LINE_STRIP</b>, то получили бы просто угол, а если указать <b>GL_LINES</b>, то всего лишь одну прямую, третья точка была бы игнорирована библиотекой. Попробуйте поэкспериментировать сами.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol><li>Сделать обычный проект
+<li>Установить режим рисования линий <b>GL_LINE_LOOP</b>
+</ol>
+<p><hr><center><font size=2><a href=prog/23.zip>Загрузить проект</a> | <a href=22.html>Предыдущий шаг</a> | <a href=24.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

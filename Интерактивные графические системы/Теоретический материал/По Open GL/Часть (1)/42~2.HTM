@@ -1,0 +1,61 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 42	- Два источника света.</h2></font>
+Этот шаг не сильно отличается от предыдущего. Просто добавили еще 1 источник света. Мелкая хитрость состоит в том, что в <b>OpenGL</b> первый (т.е. нулевой) источник всегда как бы включен, т.е. излучает по оси <b>Z</b> с интенсивностью 1.0, 1.0, 1.0, 0.0 по всем составляющим света. Второй источник надо просто включить.
+<p>Зададим положение и интенсивность 2-го источника:
+<pre>
+GLfloat			light1_Position[4] = {0.0f, 0.0f, -2.5f, 1.0f};
+GLfloat			light1_Intensity[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+</pre>
+Теперь в функции <b>StartRC</b> включим его:
+<pre>
+	glEnable(GL_LIGHT1);
+</pre>
+и дадим ему определенный тип
+<pre>
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_Intensity);
+</pre>
+Источники света в принципе бывают рассеяные (т.е. <b>diffuse</b>) и направленные (т.е. <b>ambient</b>), которые могут быть как бесконечно удалены (т.е. лучи идут как бы параллельно), так и типа прожектора с определенной диаграммой направленности. Вообще-то свойств у источников света достаточно много и они связаны с еще большим количеством свойств материалов объектов. Если мне не будет лень, то постепенно пройдемся по многим из них ;)
+<p>Теперь посмотрим на функцию <b>Draw()</b>:
+<pre>
+GLvoid Draw()
+{
+	static GLfloat rot = 0.0f;
+
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glPushMatrix();
+	glColor3f (1.0, 1.0, 0.5);
+	glCallList(CUBE_LIST);
+	glRotatef(rot, 0.0f, 1.0f, 1.0f);
+
+	glPushMatrix();
+	glLightfv(GL_LIGHT0, GL_POSITION, light0_Position);
+	glTranslatef(light0_Position[0],light0_Position[1],light0_Position[2]);
+	glScalef(0.1f, 0.1f, 0.1f);
+	glCallList(CUBE_LIST);
+	glPopMatrix();
+
+	// ------------ Start New Block --------------
+	glPushMatrix();
+	glLightfv(GL_LIGHT1, GL_POSITION, light1_Position);
+	glRotatef(rot, 1.0f, 0.0f, 0.0f);
+	glTranslatef(light1_Position[0],light1_Position[1],light1_Position[2]);
+	glScalef(0.1f, 0.1f, 0.1f);
+	DrawCube();
+	glPopMatrix();
+	// ------------ End New Block ----------------
+
+	rot+=1.0f;
+	glPopMatrix();
+
+	SwapBuffers(hDC);
+}
+</pre>
+Новый код находится между символами комментариев. Если посмотреть повнимательнее, то он копирует блок кода идущий чуть выше, за исключением еще одной функции <b>glRotatef</b>, которая просто вращает источник вокруг <b>X</b>-а. Смысла никакого, но хоть немного повеселее чем по кругу.
+<p><hr><center><font size=2><a href=prog/42.zip>Загрузить проект</a> | <a href=41.html>Предыдущий шаг</a> | <a href=43.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

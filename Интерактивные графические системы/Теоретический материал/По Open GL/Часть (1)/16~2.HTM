@@ -1,0 +1,111 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 16 - Doc - View + OpenGL.</h2></font>
+В предыдущих шагах мы делали шаги на <b>Win32 API</b> и очень быстро пробежали по основным возможностям <b>OpenGL</b>.
+<P>А как извесно, если быстро бежать, то ничего вокруг не увидишь. Вот теперь, хорошо пробежавшись, начнем медленно и внимательно изучать команды <b>OpenGL</b>.
+<p>Но чтобы было не так скучно мы будем использовать не <b>Win32 API</b>, а <b>MFC</b>.
+<p>В <a href=15.html>шаге 15</a> мы посмотрели как пишется программа c <b>OpenGL+MFC</b> в виде диалога, теперь посмотрим как сделать такую же програмку в модели <b>Doc-View</b>.
+
+<p>Прежде всего создаем проект с помощью <b>MFC Wizard</b> и класс <b>View</b> наследуем от <b>CView</b> (хотя можно и от других классов, но в этом просто нет смысла).
+<p>В файл <b>stdafx.h</b> добавим заголовочные файлы <b>OpenGL</b>, а в <b>Project->Settings</b> добавим библиотеки <b>OpenGL</b>. Как вы помните из приложений на <b>Win32 API</b> необходимо задать стиль окна. Это можно сделать в функции <b>PreCreateWindow(...)</b>. Например так:
+<pre>
+BOOL CExampleView::PreCreateWindow(CREATESTRUCT& cs)
+{
+	// TODO: Modify the Window class or styles here by modifying
+	//  the CREATESTRUCT cs
+
+	cs.style |= WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
+
+	return CView::PreCreateWindow(cs);
+}
+</pre>
+Затем нам надо установить формат пикселя и создать контекст рендеринга. Это можно сделать в обработчике <b>WM_CREATE</b>:
+<pre>
+int CExampleView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+{
+    PIXELFORMATDESCRIPTOR pfd;
+    int iPixelFormat;
+    CDC *pDC;
+
+    if (CView::OnCreate(lpCreateStruct) == -1)
+        return -1;
+
+    // TODO: Add your specialized creation code here
+    pDC = GetDC();
+    memset(&pfd, 0, sizeof(pfd));
+    pfd.nSize = sizeof(pfd);
+    pfd.nVersion = 1;
+    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+    pfd.iPixelType = PFD_TYPE_RGBA;
+    pfd.iLayerType = PFD_MAIN_PLANE;
+    pfd.cDepthBits = 16;
+    iPixelFormat = ChoosePixelFormat(pDC-&gt;m_hDC, &pfd);
+    SetPixelFormat(pDC-&gt;m_hDC, iPixelFormat, &pfd);
+    m_hglrc = wglCreateContext(pDC-&gt;m_hDC);
+    wglMakeCurrent(pDC-&gt;m_hDC, m_hglrc);
+    ReleaseDC(pDC);
+
+    return 0;
+}
+</pre>
+Не забудьте в описание класса (желательно в раздел <b>private</b> или <b>protected</b>) добавить переменную:
+<pre>
+private:
+	HGLRC m_hglrc;
+</pre>
+Как вы понимаете это и есть наш контекст рендеринга.
+<p>Перед выходом из программы желательно удалить ранее полученный контекст рендеринга. Давайте сделаем это в обработчике <b>WM_DESTROY</b>:
+<pre>
+void CExampleView::OnDestroy() 
+{
+	CView::OnDestroy();
+	
+	// TODO: Add your message handler code here
+
+    wglMakeCurrent(NULL, NULL);	
+}
+</pre>
+Теперь, если вся подготовка прошла удачно. Начинаем что-нибудь рисовать. Разумнее всего (для статических картинок) это сделать в обработчике <b>OnDraw</b>:
+<pre>void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glPointSize (20);                   // размер точек
+	glColor3f (1.0, 0.0, 0.5);          // текущий цвет примитивов
+	glBegin (GL_POINTS);
+		glVertex2f (-1, -1);
+		glVertex2f (-1, 1);
+		glVertex2f (0, 0);
+		glVertex2f (1, -1);
+		glVertex2f (1, 1);
+	glEnd();
+}</pre>
+Программа рисует 5 "толстых" точек. Легко понять, что толщина точек задается командой <b>glPointSize(GLint iSize);</b>
+<p>Если вы не используете специальных команд преобразования видовых координат, то библиотека настраивается так, что система координат начинается в центре экрана и простирается от -1 до +1 по <b>X</b> и от -1 до +1 по <b>Y</b>.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol>
+<li>создать <b>MFC</b> проект.
+<li>изенить стили в <b>C...View::PreCreateWindow(...)</b>
+<li>изменить формат пикселя и получить контекст рендеринга в <b>OnCreate(...)</b>
+<li>удалить контекст рендеинга в <b>OnDestoy(...)</b>
+<li>Нарисовать что-нибудь в <b>OnDraw(...)</b>
+<li>Скомпилировать, запустить, долго смотреть на точки, прийти к выводу, что хватит, бросить все, пойти спать.
+</ol>
+
+<p><hr><center><font size=2><a href=prog/16.zip>Загрузить проект</a> | <a href=15.html>Предыдущий шаг</a> | <a href=17.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

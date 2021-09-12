@@ -1,0 +1,557 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0050)http://k46.aanet.ru/textbooks/std_pro/index1_4.htm -->
+<HTML><HEAD><TITLE>Стандартизация процессов обеспечения качества ПО</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type><!-- Meta http equivalent was here                                     -->
+<META content=ru http-equiv=Content-Language>
+<META content="MSHTML 5.00.2614.3500" name=GENERATOR></HEAD>
+<BODY 
+background="Стандартизация процессов обеспечения качества ПО5.files/gutxt.jpg">
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="14%">
+  <TBODY>
+  <TR>
+    <TD><A href="http://k46.aanet.ru/textbooks/std_pro/index1_3.htm" 
+      target=_top><IMG alt=Назад border=0 height=31 
+      src="Стандартизация процессов обеспечения качества ПО5.files/back.gif" 
+      width=61></A></TD>
+    <TD><A href="http://k46.aanet.ru/textbooks/std_pro/index.htm" 
+      target=_top><IMG alt=Оглавление border=0 height=36 
+      src="Стандартизация процессов обеспечения качества ПО5.files/up.gif" 
+      width=74></A></TD>
+    <TD><A href="http://k46.aanet.ru/textbooks/std_pro/index2_1.htm" 
+      target=_top><IMG alt=Вперед border=0 height=31 
+      src="Стандартизация процессов обеспечения качества ПО5.files/forward.gif" 
+      width=61></A></TD></TR></TBODY></TABLE>
+<BLOCKQUOTE>
+  <P align=justify><FONT size=3><B><FONT face="Times New Roman CYR"><A 
+  name=_Toc434897474>1.4. Модели и метрики оценки качества 
+  ПО</A></FONT></B></FONT></P><FONT face="Times New Roman CYR" size=4>
+  <P align=justify><FONT size=3>Современная программная индустрия за полвека 
+  исканий накопила внушительную коллекцию моделей и метрик, оценивающих 
+  отдельные производственные и эксплуатационные свойства ПО. Однако погоня за их 
+  универсальностью, неучет области применения разрабатываемого ПО, игнорирование 
+  этапов жизненного цикла программного обеспечения и, наконец, необоснованное их 
+  использование в разноплановых процедурах принятия производственных решений, 
+  существенно подорвало к ним доверие разработчиков и пользователей ПО.<BR>Тем 
+  не менее, анализ технологического опыта лидеров производства ПО показывает, 
+  насколько дорого обходится несовершенство ненаучного прогноза разрешимости и 
+  трудозатрат, сложности программ, негибкость контроля и управления их 
+  разработкой и многое другое, указывающее на отсутствие сквозной методической 
+  поддержки и приводящее в конечном итоге к его несоответствию требованиям 
+  пользователя, требуемому стандарту и к последующей болезненной и трудоемкой 
+  его переделке. Эти обстоятельства, требуют тщательного отбора методик, 
+  моделей, методов оценки качества ПО, учета ограничений их пригодности для 
+  различных жизненных циклах и в пределах жизненного цикла, установления порядка 
+  их совместного использования, применения избыточного разномодельного 
+  исследования одних и тех же показателей для повышения достоверности текущих 
+  оценок, накопления и интеграции разнородной метрической информации для 
+  принятия своевременных производственных решений и заключительной сертификации 
+  продукции.Ниже, в таблице 1.3., приведены модели и метрики, хорошо 
+  зарекомендовавшие себя при оценке качества ПО, пригодные для прогнозирования и 
+  констатации различных показателей сложности и надежности программ. 
+  </FONT></P></FONT>
+  <P align=left><FONT face="Times New Roman CYR" size=3><B>Таблица 
+  </B></FONT><B><FONT size=3>1.3. </FONT></B></P>
+  <DIV align=left>
+  <TABLE border=1 borderColor=#000000 cellPadding=9 cellSpacing=2 
+    width="100%"><TBODY>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P align=center>Название модели </FONT></P></TD>
+      <TD vAlign=top width="52%"><FONT face="Times New Roman CYR" size=4>
+        <P align=center>Формула, обозначение </FONT></P></TD></TR>
+    <TR>
+      <TD colSpan=2 vAlign=top><FONT face="Times New Roman CYR" size=4>
+        <P align=center>МЕТРИКИ СЛОЖНОСТИ </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрики Холстеда<BR>-длина программы;<BR>- объем программы<BR>- 
+        оценка ее реализации;<BR>- трудность ее понимания;<BR>- трудоемкость 
+        кодирования;<BR>- уровень языка выражения;<BR>- информационное 
+        содержание;<BR>- оптимальная модульность; </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>N = n<SUB>1 </SUB>log<SUB>1</SUB> n<SUB>1</SUB> + 
+        n<SUB>2 </SUB>log<SUB>2 </SUB>n<SUB>2<BR></SUB>V = N log<SUB>2 
+        </SUB>n<BR>L<SUP>*</SUP>= (2<SUB> </SUB>n<SUB>2 </SUB>)/ (n<SUB>1</SUB> 
+        N<SUB>2</SUB>)<BR>E<SUB>c </SUB>= V/ L<SUP>*<BR></SUP>D = 
+        (n<SUB>1</SUB>N<SUB>2</SUB>)<SUB> </SUB>(2n<SUB>2</SUB>) = 1/ 
+        L<SUP>*<BR></SUP><FONT face=Symbol>l</FONT> <SUP>*</SUP> = V/ 
+        D<SUP>2</SUP> = V/ L<SUP>* 2<BR></SUP>I = V / D<BR>M = 
+        n<SUB>2</SUB><SUP>*</SUP>/6 </P></FONT></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрики Джилба<BR><FONT size=4>-</FONT><FONT 
+        face="Times New Roman CYR" size=4> количество операторов 
+        цикла;</FONT><BR>- количество операторов условия;<BR>- число модулей или 
+        подсистем;<BR>- отношение числа связей между модулями к числу 
+        модулей;<BR><FONT face="Times New Roman CYR" size=4>- отношение числа 
+        ненормальных выходов</FONT><FONT size=4> </FONT><FONT 
+        face="Times New Roman CYR" size=4>из множества операторов к общему числу 
+        операторов;</FONT> </P></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;L<SUB>1oop<BR></SUB>L <SUB>IF<BR></SUB>L 
+        <SUB>mod<BR></SUB>f = N<SUP>4</SUP><SUB>SV</SUB> / L <SUB>mod<BR></SUB>f 
+        <SUP>*</SUP> = N<SUP>*</SUP><SUB>SV</SUB> / L</P></FONT></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%" H><FONT face="Times New Roman CYR" size=4>
+        <P>Метрики Мак-Кейба- цикломатическое число;<BR>- цикломатическая 
+        сложность; </P></FONT><FONT face="Times New Roman CYR" size=4></FONT></TD>
+      <TD height=92 vAlign=top width="52%"><FONT size=4>
+        <P align=center><SUP>&nbsp; </SUP><FONT face=Symbol>l</FONT>(G) = m - n 
+        + p<BR><FONT face=Symbol>n</FONT> (G) =&nbsp;<SUP> </SUP><FONT 
+        face=Symbol>l</FONT><SUP> </SUP>(G) +1 = m - n + 2 </P></FONT></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Чепена<BR>- мера трудности понимания программ на основе 
+        входных и выходных данных; </P></FONT><FONT face="Times New Roman CYR" 
+        size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>H = 0.5T+P+2M+3C</P>
+        <P align=center></FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Шнадевида<BR>- число путей в управляющем графе 
+        </P></FONT><FONT face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>S =&nbsp; <FONT face=Symbol>S </FONT>P<SUB>i 
+        </SUB>C<SUB>i</SUB> </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Майерса<BR>- интервальная мера; </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;</P>
+        <P align=center>[<FONT face=Symbol>n</FONT> <SUB>1</SUB><FONT 
+        face=Symbol><SUB>&nbsp; &cedil;</FONT> </SUB><FONT face=Symbol>n</FONT> 
+        <SUB>2</SUB>] </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Хансена<BR>- <B></B>пара (цикломатическое число, число 
+        операторов) </P></FONT><B><FONT face="Times New Roman CYR" 
+        size=4></FONT></B></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>{<FONT face=Symbol>n</FONT> , N} </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Чена<BR>- топологическая мера Чена; </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4></FONT>
+        <P align=center><FONT size=4>M(G) = (<FONT face=Symbol>n</FONT> (G), 
+        <FONT face="Times New Roman CYR">N</FONT></FONT><FONT size=4>, 
+        Q<SUB>0</SUB>)</FONT> </P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Вудворда<BR>- узловая мера (число узлов передач управления); 
+        </P></FONT><FONT face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;<FONT face=Symbol>Y</FONT> <FONT 
+        face=Symbol>x</FONT> </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Кулика<BR>- нормальное число (число простейших циклов в 
+        нормальной схеме программы); </P></FONT><FONT face="Times New Roman CYR" 
+        size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;Norm (P) </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Хура<BR>- цикломатическое число сети Петри, отражающей 
+        управляющую структуру программы; </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;<SUP> </SUP><FONT 
+        face=Symbol>l</FONT>(G<SUP>*</SUP></FONT><SUB><FONT 
+        face="Times New Roman CYR" size=4>р</FONT></SUB><FONT size=4>)</FONT> 
+        </P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрики Витворфа, Зулевского<BR>-мера сложности потока управления 
+        <BR>-мера сложности потока данных; </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%">
+        <P align=center><FONT size=4><FONT face=Symbol>g</FONT> </FONT><FONT 
+        face="Times New Roman CYR" size=4>(Р)<BR></FONT><FONT size=4><FONT 
+        face=Symbol>W</FONT> </FONT><FONT face="Times New Roman CYR" 
+        size=4>(Р)</FONT> </P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Петерсона<BR>- число многовходовых циклов; </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;Nm <SUB>1 0 0 p</SUB> </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрики Харрисона, Мэйджела<BR>- функциональное число (сумма 
+        приведенных сложностей всех вершин управляющего графа); <BR>- 
+        функциональное отношение (отношение числа вершин графа к функциональному 
+        числу); <BR>- регулярные выражения (число операндов, операторов и скобок 
+        в регулярном выражении управляющего графа программы); </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;</P>
+        <P align=center>f<SUB>1 </SUB>= <FONT face=Symbol>S</FONT> <FONT 
+        face=Symbol>c</FONT> <SUB>1<BR></SUB>f<SUP>*</SUP><SUB> </SUB>= N <FONT 
+        face=Symbol>c</FONT> <SUB>1</SUB>/ f<SUB>1 </SUB><BR>p(G) = N+L+Sk 
+        </P></FONT></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Пивоварского<BR>- модифицированная цикломатическая мера 
+        сложности; </P></FONT><FONT face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;N(G) = n<SUP>*</SUP>(G) + <FONT 
+        face=Symbol>S</FONT> P<SUB>i</SUB> </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Пратта<BR>- тестирующая мера; </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;Test (Pr) </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Кантоне<BR>- характеристические числа полиномов, описывающих 
+        управляющий граф программы; </P></FONT><FONT face="Times New Roman CYR" 
+        size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>PCN<SUP>*</SUP> </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Мак-Клура<BR>- мера сложности, основанная на числе возможных 
+        путей выполнения программы, числе управляющих конструкций и переменных; 
+        </P></FONT><FONT face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%">
+        <P align=center><FONT size=4>C(V) = D(V) <FONT face=Symbol>&acute; 
+        </FONT></FONT><FONT size=4>J(V) / N</FONT> </P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Кафура<BR>- мера на основе концепции информационных потоков; 
+        </P></FONT><FONT face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;I(G) </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Схуттса, Моханти<BR>- энтропийные меры; </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;<FONT face=Symbol>e</FONT> (G) </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Коллофело<BR>- мера логической стабильности программ; 
+        </P></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;h (G) </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Зольновского, Симмонса, Тейера <BR>Взвешенная сумма различных 
+        индикаторов:<BR>- (структура, взаимодействие, объем, данные);<BR>- 
+        (сложность интерфейса, вычислительная сложность, сложность ввода/вывода, 
+        читабельность); </P></FONT><FONT face="Times New Roman CYR" 
+        size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;<FONT face=Symbol>&aring;</FONT> (<FONT 
+        face=Symbol>a</FONT> , <FONT face=Symbol>b</FONT> , <FONT 
+        face=Symbol>g</FONT> , <FONT face=Symbol>n</FONT> )</P>
+        <P align=center>&nbsp;</P>
+        <P align=center><FONT face=Symbol>&aring;</FONT> (<FONT face=Symbol>c</FONT> , 
+        <FONT face=Symbol>C</FONT> , <FONT face=Symbol>u</FONT> , <FONT 
+        face=Symbol>p</FONT> ) </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Берлингера<BR>- информационная мера; </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;</P>
+        <P align=center>I(R) = m (F<SUP>* </SUP>(R) <FONT face=Symbol>&acute;</FONT> 
+        F<SUP>-</SUP>(R))<SUP>2</SUP> </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Шумана<BR>- сложность с позиции статистической теории языка; 
+        </P></FONT><FONT face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;</P>
+        <P align=center><FONT face=Symbol>X</FONT> (<FONT face=Symbol>Y</FONT> ) 
+        </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Метрика Янгера<BR>- логическая сложность с учетом истории 
+        вычислений;<BR>Сложность проектирования<BR><FONT 
+        face="Times New Roman CYR" size=4>Насыщенность комментариями</FONT> 
+        <BR>Число внешних обращений <BR>Число операторов </P></FONT><FONT 
+        face="Times New Roman CYR" size=4></FONT></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>&nbsp;</P>
+        <P align=center><FONT face=Symbol>L</FONT> (<FONT face=Symbol>w</FONT> 
+        )<BR>C<SUB>c</SUB> = <FONT face=Symbol>&aring;</FONT> log<SUB>2</SUB> (i + 1) 
+        [<FONT face=Symbol>&aring;</FONT> <SUB>n</SUB> Cxy (n)]<BR>X = 
+        K/C<BR>C<SUB>i<BR></SUB>L<SUB>1</SUB> </P></FONT></TD></TR>
+    <TR>
+      <TD colSpan=2 vAlign=top><FONT face="Times New Roman CYR" size=4>
+        <P align=center>ПРОГНОЗ МОДЕЛИ </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Модели Холстеда<BR><FONT size=4>- </FONT><FONT 
+        face="Times New Roman CYR" size=4>прогноз системных 
+        ресурсов;</FONT><BR>- прогноз числа ошибок.<BR>Модель фирмы 
+        IBM<BR>Модель общей сложности<BR>Модели связности <BR>Сплайн-модель 
+        </P></FONT><FONT face="Times New Roman CYR" size=4><B></B></FONT></TD>
+      <TD vAlign=top width="52%">
+        <P align=center><FONT size=4>P=3/8 (R<SUB>a</SUB> - 1) <FONT 
+        face=Symbol>&acute;</FONT> </FONT><FONT size=4>2<SUP>Ra</SUP> </FONT><BR>B = 
+        Nlog<SUB>2</SUB> n / 3000<BR>B = 23M<SUB>1</SUB> + M<SUB>1 0</SUB> <BR>B 
+        = 21.1 + 0.1 V + COMP (S)<BR>P<SUB>ij</SUB> = 0.15 (S<SUB>i</SUB> + 
+        S<SUB>j</SUB>) + 0.7 C<SUB>ij</SUB> <BR>P<SUB>ij</SUB> = &frac12; <FONT 
+        face=Symbol>&aring;</FONT> <FONT face=Symbol>l</FONT> <SUB>i</SUB> (<FONT 
+        face=Symbol>D</FONT> Z<SUB>ij</SUB><SUP>2</SUP> + <FONT 
+        face=Symbol>D</FONT> N<SUB>ij</SUB><SUP>2</SUP> ) ln (<FONT 
+        face=Symbol>D</FONT> Z<SUB>ij</SUB><SUP>2</SUP> + <FONT 
+        face=Symbol>D</FONT> N<SUB>ij</SUB><SUP>2</SUP> ) + <FONT 
+        face=Symbol>a</FONT> + <FONT face=Symbol>b</FONT> Z<SUB>i </SUB>+ <FONT 
+        face=Symbol>g</FONT> N<SUB>1</SUB> </P><FONT size=4></FONT></TD></TR>
+    <TR>
+      <TD colSpan=2 vAlign=top><FONT face="Times New Roman CYR" size=4>
+        <P align=center>ОЦЕНОЧНЫЕ МОДЕЛИ </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Джелински - Моранды </FONT></P></TD>
+      <TD vAlign=top width="52%">
+        <P align=center><FONT size=4>R(t) = e <SUP>- (</SUP></FONT><SUP><FONT 
+        face="Times New Roman CYR" size=4>Т</FONT><FONT size=4> - 1 + 1) 
+        </FONT></SUP><FONT size=4><SUP><FONT 
+        face=Symbol>F</FONT></SUP></FONT><SUP><FONT size=4>t</FONT></SUP> 
+    </P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Вейса-Байеса </FONT></P></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>R<SUB>1</SUB> (t) = <FONT face=Symbol>&ograve;</FONT> <FONT 
+        face=Symbol>&ograve;</FONT> e <SUP>- l - (i -1) <FONT face=Symbol>F</FONT> 
+        )t</SUP> <FONT face=Symbol>Y</FONT>(<FONT face=Symbol>l</FONT>, 
+        F/t<SUB>1</SUB>, ... , t<SUB>i-1</SUB>) d<FONT face=Symbol>l</FONT> 
+        dФ</FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Шика-Волвертона </FONT></P></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>R<SUB>1</SUB> (t) = e <SUP>- F( N - 1 + 1) 
+        t</SUP><SUB>i</SUB><SUP>2 / 2</SUP> </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Литтлвуда </FONT></P></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>R<SUB>1</SUB> (t) = (b<SUB>+</SUB><FONT 
+        face=Symbol>t</FONT> /b<SUB>+</SUB><FONT face=Symbol>t 
+        </FONT><SUB>+</SUB><FONT face=Symbol>t</FONT>) <SUP>- <FONT 
+        face=Symbol>F</FONT>(N - i + 1) a</SUP> </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Нельсона </FONT></P></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>R<SUB>j</SUB> (t) = exp { <FONT face=Symbol>&aring;</FONT> ln 
+        (1 - P<SUB>j</SUB>)} </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Халецкого </FONT></P></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>R<SUB>j</SUB> (t) = P<FONT face=Symbol>µ</FONT>- a(1- 
+        <FONT face=Symbol>g</FONT> <SUP>nj</SUP> ) / n<SUB>j 
+    </SUB></FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Модель отлаженности </FONT></P></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>R<SUB>j</SUB> (t) =P<FONT face=Symbol>µ</FONT> - <FONT 
+        face=Symbol>r</FONT> f<SUB>j</SUB> (<FONT face=Symbol>t</FONT> ,<FONT 
+        face=Symbol>l</FONT> ,<FONT face=Symbol>p</FONT> ) </FONT></P></TD></TR>
+    <TR>
+      <TD vAlign=top width="48%"><FONT face="Times New Roman CYR" size=4>
+        <P>Мозаичная модель </FONT></P></TD>
+      <TD vAlign=top width="52%"><FONT size=4>
+        <P align=center>R<SUB>j</SUB> (t) = 1 - <FONT face=Symbol>b</FONT> ( 
+        <FONT face=Symbol>a</FONT> - <FONT face=Symbol>w</FONT> <SUB>j - 
+        1</SUB>) </FONT></P></TD></TR></TBODY></TABLE></DIV><FONT 
+  face="Times New Roman CYR" size=4>
+  <P align=justify><FONT size=3>В таблице представлены разнообразные метрики 
+  сложности ПО для различных форм их представления, модели прогнозирующие ход 
+  развития процессов разработки ПО и вероятностные модели по оценке 
+  надежности.<BR>Кратко рассмотрим метрики сложности. Одной из основных целей 
+  научно-технической поддержки является уменьшение сложности ПО. Именно это 
+  позволяет снизить трудоемкость проектирования, разработки, испытаний и 
+  сопровождения, обеспечить простоту и надежность производимого ПО. 
+  Целенаправленное снижение сложности ПО представляет собой многошаговую 
+  процедуру и требует предварительного исследования существующих показателей 
+  сложности, проведения их классификации и соотнесения с типами программ и их 
+  местоположением в жизненном цикле.<BR>Теория сложности программ ориентирована 
+  на управление качеством ПО и контроль ее эталонной сложности в период 
+  эксплуатации. В настоящее время многообразие показателей (в той или иной 
+  степени описывающих сложность программ) столь велико, что для их употребления 
+  требуется предварительное упорядочение. В ряде случаев удовлетворяются тремя 
+  категориями метрик сложности. Первая категория определяется как словарная 
+  метрика, основанная на метрических соотношениях Холстеда, цикломатических 
+  мерах Мак-Кейба и измерениях Тейера. Вторая категория ориентирована на метрики 
+  связей, отражающих сложность отношений между компонентами системы - это 
+  метрики Уина и Винчестера. Третья категория включает семантические метрики, 
+  связанные с архитектурным построением программ и их оформлением.<BR>Согласно 
+  другой классификации, показатели сложности делятся на две группы: сложность 
+  проектирования и сложность функционирования. Сложность проектирования, которая 
+  определяется размерами программы, количеством обрабатываемых переменных, 
+  трудоемкостью и длительностью разработки и др. факторами, анализируется на 
+  основе трех базовых компонентов: сложность структуры программы, сложность 
+  преобразований (алгоритмов), сложность данных. Во вторую группу показателей 
+  отнесены временная, программная и информационная сложности, характеризующие 
+  эксплуатационные качества ПО.<BR>Существует еще ряд подходов к классификации 
+  мер сложности, однако они, фиксируя частные стороны исследуемых программ, не 
+  позволяют (пусть с большим допущением) отразить <B>общее, </B>то, чьи замеры 
+  могут лечь в основу производственных решений.<BR></FONT><FONT size=3>Общим, 
+  инвариантно присущим любому ПО (и связанной с его корректностью), является его 
+  <B>СТРУКТУРА</B>. Важно связать это обстоятельство с определенным значением 
+  структурной сложности в совокупности мер сложности ПО. И более того, при 
+  анализе структурной сложности целесообразно ограничиться только ее 
+  топологическими мерами, т.е. мерами, в основе которых лежат топологические 
+  характеристики граф-модели программы. Эти меры удовлетворяют подавляющему 
+  большинству требований, предъявляемых к показателям: общность применимости, 
+  адекватность рассматриваемому свойству, существенность оценки, 
+  состоятельность, количественное выражение, воспроизводимость измерений, малая 
+  трудоемкость вычислений, возможность автоматизации оценивания.<BR>Именно 
+  топологические меры сложности наиболее часто применяются в фазе исследований, 
+  формирующей решения по управлению производством (в процессах проектирования, 
+  разработки и испытаний) и составляют доступный и чувствительный эталон готовой 
+  продукции, контроль которого необходимо регулярно осуществлять в период ее 
+  эксплуатации.<BR><FONT face="Times New Roman CYR">Первой топологической мерой 
+  сложности является цикломатическая мера Мак-Кейба. В ее основе лежит идея 
+  оценки сложности ПО по числу базисных путей в ее управляющем графе, т.е. таких 
+  путей, компонуя которые можно получить всевозможные пути из входа графа в 
+  выходы. Цикломатическое число <FONT face=Symbol>l</FONT> (G) орграфа G с 
+  n-вершинами, m-дугами и p-компонентами связности есть величина <FONT 
+  face=Symbol>l</FONT> </FONT>(G) = m - n + p. <BR><FONT 
+  face="Times New Roman CYR">Имеет место теорема о том, что число базисных путей 
+  в орграфе равно его цикломатическому числу, увеличенному на единицу. При этом, 
+  цикломатической сложностью ПО Р с управляющим графом G называется величина 
+  <FONT face=Symbol>n</FONT> </FONT>(G) = <FONT face=Symbol>l</FONT> 
+  </FONT><FONT face="Times New Roman CYR" size=3>(G) +1 = m - n + 2. Практически 
+  цикломатическая сложность ПО равна числу предикатов плюс единица, что 
+  позволяет вычислять ее без построения управляющего графа простым подсчетом 
+  предикатов. Данная мера отражает психологическую сложность ПО.</FONT><FONT 
+  size=3><BR>К достоинствам меры относят простоту ее вычисления и повторяемость 
+  результата, а также наглядность и содержательность интерпретации. В качестве 
+  недостатков можно отметить: нечувствительность к размеру ПО, 
+  нечувствительность к изменению структуры ПО, отсутствие корреляции со 
+  структурированностью ПО, отсутствие различия между конструкциями Развилка и 
+  Цикл, отсутствие чувствительности к вложенности циклов. Недостатки 
+  цикломатической меры привело к появлению ее модификаций, а также принципиально 
+  иных мер сложности.<BR><FONT face="Times New Roman CYR">Дж. Майерс предложил в 
+  качестве меры сложности интервал [<FONT face=Symbol>n</FONT> 
+  </FONT><SUB>1<FONT face=Symbol>&cedil;</FONT> </SUB><FONT face=Symbol>n</FONT> 
+  <SUB>2</SUB></FONT><FONT face="Times New Roman CYR" size=3>], где <FONT 
+  face=Symbol>n</FONT> </FONT><FONT size=3><SUB>1</SUB><FONT 
+  face="Times New Roman CYR">- цикломатическая мера, а <FONT 
+  face=Symbol>n</FONT> </FONT><SUB>2</SUB><FONT face="Times New Roman CYR"> - 
+  число отдельных условий плюс единица. При этом, оператор DO считается за одно 
+  условие, а CASE c n - исходами за n - 1- условий. Введенная мера получила 
+  название интервальной мерой.</FONT><BR>У. Хансену принадлежит идея брать в 
+  качестве меры сложности ПО пару {цикломатической число, число операторов}. 
+  Известна топологическая мера Z(G), чувствительная к структурированности ПО. 
+  При этом, она Z(G) = V(G) (равна цикломатической сложности) для 
+  структурированных программ и Z(G) <FONT face=Symbol>&gt;</FONT> V(G) для 
+  неструктурированных. К вариантам цикломатической меры сложности относят также 
+  меру М(G) = (V(G),C,Q), где С - количество условий, необходимых для покрытия 
+  управляющего графа минимальным числом маршрутов, а Q - степень связности 
+  структуры графа программы и ее протяженность.<BR>К мерам сложности, 
+  учитывающим вложенность управляющих конструкций, относят тестирующую меру М и 
+  меру Харрисона-Мейджела, учитывающих уровень вложенности и протяженности ПО, 
+  меру Пивоварского - цикломатическую сложность и глубину вложенности, и меру 
+  Мак-Клура - сложность схемы разбиения ПО на модули с учетом вложенности 
+  модулей и их внутренней сложности.<BR>Функциональная мера сложности 
+  Харрисона-Мейджела предусматривает приписывание каждой вершине графа своей 
+  собственной сложности (первичной) и разбиение графа на сферы влияния 
+  предикатных вершин. Сложность сферы называют приведенной и слагают ее из 
+  первичных сложностей вершин, входящих в сферу ее влияния, плюс первичную 
+  сложность самой предикатной вершины. Первичные сложности вычисляются всеми 
+  возможными способами. Отсюда функциональная мера сложности ПО есть сумма 
+  приведенных сложностей всех вершин управляющего графа.<BR><FONT 
+  face="Times New Roman CYR">Мера Пивоварского ставит целью учесть в оценке 
+  сложности ПО различия не только между последовательными и вложенными 
+  управляющими конструкциями, но и между структурированными и 
+  неструктурированными программами. Она выражается отношением N(G) = <FONT 
+  face=Symbol>n</FONT> </FONT><SUP>*</SUP>(G) + <FONT face=Symbol>S</FONT> 
+  P<SUB>i </SUB></FONT><FONT face="Times New Roman CYR" size=3>, где <FONT 
+  face=Symbol>n</FONT> </FONT><FONT size=3><SUP>*</SUP><FONT 
+  face="Times New Roman CYR">(G) - модифицированная цикломатическая сложность, 
+  вычисленная так же, как и V(G), но с одним отличием: оператор CASE с n- 
+  выходами рассматривается как один логический оператор, а не как n - 1 
+  операторов. Р</FONT><SUB>i</SUB><FONT face="Times New Roman CYR"> - глубина 
+  вложенности i - той предикатной вершины.</FONT><BR>Для подсчета глубины 
+  вложенности предикатных вершин используется число сфер влияния. Под глубиной 
+  вложенности понимается число всех сфер влияния предикатов, которые либо 
+  полностью содержаться в сфере рассматриваемой вершины, либо пересекаются с 
+  ней. Глубина вложенности увеличивается за счет вложенности не самих 
+  предикатов, а сфер влияния. Сравнительный анализ цикломатических и 
+  функциональных мер с обсуждаемой для десятка различных управляющих графов 
+  программы показывает, что при нечувствительности прочих мер этого класса, мера 
+  Пивоварского возрастает при переходе от последовательных программ к вложенным 
+  и далее к неструктурированным. <BR>Мера Мак-Клура предназначена для управления 
+  сложностью структурированных программ в процессе проектирования. Она 
+  применяется к иерархическим схемам разбиения программ на модули, что позволяет 
+  выбрать схему разбиения с меньшей сложностью задолго до написания программы. 
+  Метрикой выступает зависимость сложности программы от числа возможных путей 
+  исполнения, числа управляющих конструкций и числа переменных (от которых 
+  зависит выбор пути). Методика расчета сложности по Мак-Клуру четко 
+  ориентирована на хорошо структурированные программы.<BR>Тестирующей мерой М 
+  называется мера сложности, удовлетворяющая следующим условиям:<BR><B>1. Мера 
+  сложности простого оператора равна 1;<BR><FONT face="Times New Roman CYR">2. М 
+  (</FONT>{F1; F2; &#9496;;Fn}) = <FONT 
+  face="Times New Roman CYR">е</FONT><SUB>i</SUB><SUP>n</SUP> M(Fi);<BR>3. <FONT 
+  face="Times New Roman CYR">М (</FONT>IF P THEN F1 ELSE F2) = 2 MAX (M (F1), M 
+  (F2));<BR>4. <FONT face="Times New Roman CYR">М (</FONT>WHILE P DO F) = 2 
+  M(F).</B><BR>Мера возрастает с глубиной вложенности и учитывает протяженность 
+  программы. К тестирующей мере близко примыкает мера на основе регулярных 
+  вложений. Идея этой меры сложности программ состоит в подсчете суммарного 
+  числа символов (операндов, операторов, скобок) в регулярном выражении с 
+  минимально необходимым числом скобок, описывающим управляющий граф программы. 
+  Все меры этой группы чувствительны к вложенности управляющих конструкций и к 
+  протяженности программы. Однако возрастает уровень трудоемкости 
+  вычислений.<BR>Рассмотрим меры сложности, учитывающие характер разветвлений. В 
+  основе узловой меры Вудворда, Хедли лежит идея подсчета топологических 
+  характеристик потока управления. При этом, под узловой сложностью понимается 
+  число узлов передач управления. Данная мера отслеживает сложность линеаризации 
+  программы и чувствительна к структуризации (сложность уменьшается). Она 
+  применима для сравнения эквивалентных программ, предпочтительнее меры 
+  Холстеда, но по общности уступает мере Мак-Кейба.<BR><FONT 
+  face="Times New Roman CYR">Топологическая мера Чена выражает сложность 
+  программы числа пересечений границ между областями, образуемыми блок - схемой 
+  программы. Этот подход применим только к структурированным программам, 
+  допускающим лишь последовательное соединение управляющих конструкций. Для 
+  неструктурированных программ мера Чена существенно зависит от условных и 
+  безусловных переходов. В этом случае можно указать верхнюю и нижнюю границы 
+  меры. Верхняя - есть </FONT>m+1</FONT><FONT face="Times New Roman CYR" 
+  size=3>, где </FONT><FONT size=3>m </FONT><FONT face="Times New Roman CYR" 
+  size=3>- число логических операторов при их гнездовой вложенности. Нижняя - 
+  равна 2. Когда управляющий граф программы имеет только одну компоненту 
+  связности, мера Чена совпадает с цикломатической мерой Мак-Кейба.</FONT><FONT 
+  size=3><BR>Метрики Джилба оценивают сложность графоориентированных модулей 
+  программ отношением числа переходов по условию к общему числу исполняемых 
+  операторов. Хорошо зарекомендовала себя метрика, относящаяся число 
+  межмодульных связей к общему числу модулей. Названные метрики использовались 
+  для оценки сложности эквивалентных схем программ, в особенности схем 
+  Янова.<BR>Используются также меры сложности, учитывающие историю вычислений, 
+  характер взаимодействия модулей и комплексные меры.<BR>Совокупность 
+  цикломатических мер пригодна для оценивания сложности первичных 
+  формализованных спецификаций, задающих в совокупности исходные данные, цели и 
+  условия построения искомого ПО. Оценка этой первичной программы или сравнение 
+  нескольких альтернативных ее вариантов позволит изначально гармонизировать 
+  процесс разработки ПО и от стартовой точки контролировать и управлять его 
+  текущей результирующей сложностью. </FONT></P>
+  <P align=left>&nbsp;</P></BLOCKQUOTE>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="14%">
+  <TBODY>
+  <TR>
+    <TD><A href="http://k46.aanet.ru/textbooks/std_pro/index1_3.htm" 
+      target=_top><IMG alt=Назад border=0 height=31 
+      src="Стандартизация процессов обеспечения качества ПО5.files/back.gif" 
+      width=61></A></FONT></TD>
+    <TD><A href="http://k46.aanet.ru/textbooks/std_pro/index.htm" 
+      target=_top><IMG alt=Оглавление border=0 height=36 
+      src="Стандартизация процессов обеспечения качества ПО5.files/up.gif" 
+      width=74></A></TD>
+    <TD><A href="http://k46.aanet.ru/textbooks/std_pro/index2_1.htm" 
+      target=_top><IMG alt=Вперед border=0 height=31 
+      src="Стандартизация процессов обеспечения качества ПО5.files/forward.gif" 
+      width=61></A></TD></TR></TBODY></TABLE></FONT></BODY></HTML>

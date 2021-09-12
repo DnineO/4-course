@@ -1,0 +1,93 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 28 - Масштаб и поворот.</h2></font>
+В этом шаге мы посмотрим как в <b>OpenGL</b> производится масштабирование и поворот объекта.
+<p>Для нагдядности этих операций сделаем приложение с диалогом, в котором мы будем задавать масштабы по <b>X</b>,<b>Y</b> и угол поворота относительно оси <b>Z</b> (которая, кстати, идет из ваших глаз в глубь экрана)
+<p>Как обычно создадим проект. Добавим в проект диалог с тремя вышеупомянутыми полями.
+<p>Свяжем с этими полями соответствующие переменные (при этом создав класс диалога). Добавим пункт меню <b>View->Transformation</b>, дав ему какой-либо идентификатор. Для упрощения жизни добавим кнопочку на <b>toolbar</b>, связав ее с идентификатором сделаного меню. И, наконец, сделаем обработчик нашего пункта меню.
+<pre>
+void CExampleView::OnViewTrans() 
+{
+	// TODO: Add your command handler code here
+	CScaleDlg dlg;
+
+	if(dlg.DoModal()==IDOK)
+	{
+		m_Scale_X = dlg.m_Edit_X;
+		m_Scale_Y = dlg.m_Edit_Y;
+		m_Angle = dlg.m_Angle;
+	}
+
+	if(m_Scale_X=="" || m_Scale_Y=="" || m_Angle=="")
+	{
+		AfxMessageBox("You must enter values", MB_OK);
+		return;
+	}
+
+	m_fScale_X = (float)atof((LPCTSTR)m_Scale_X);
+	m_fScale_Y = (float)atof((LPCTSTR)m_Scale_Y);
+	m_fAngle = (float)atof((LPCTSTR)m_Angle);
+
+	InvalidateRect(NULL, FALSE);
+}
+</pre>
+Для того, чтобы заработал данный код вам понадобится включить в файл <b>C...View.cpp</b> заголовочные файлы класса диалога, который мы недавно создали и создать несколько переменных, в которые мы занесем данные из переменных диалога.
+<p>В переменные <b>m_Scale_X</b>, <b>m_Scale_Y</b> и <b>m_Angle</b> мы занесем данные из переменных диалога, а в переменные <b>m_fScale_X</b>, <b>m_fScale_Y</b>, <b>m_fAngle</b> занесем численное значение, полученное из строковых переменных с помощью функции <b>atof(...)</b>.
+<p>Конечно, можно было бы и не создавать строковые переменные, но мы сейчас не гоняемся за оптимальностью кода. Главное, чтобы было понятно.
+<p>Теперь обратимся к тому, ради чего все делаем, к функции <b>OnDraw(...)</b>:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glColor3f (1.0, 0.0, 0.5);          // текущий цвет примитивов
+
+	glPushMatrix();
+
+	glRotatef(m_fAngle, 0.0f, 0.0f, 1.0f);
+	glScalef(m_fScale_X, m_fScale_Y, 1.0f);
+
+	glRectf(-0.5f, 0.5, 0.5f, -0.5f);
+
+	glPopMatrix();
+
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+Мне кажется, что комментарии тут излишни.
+Вращение задается функцией <b>glRotatef(...)</b>, где первый аргумент это угол поворота против часовой стрелки, а остальные три показывают относительно каких осей координат будет производится поворот на заданный угол. В последних 3-х аргументах имеет значение только знак, абсолютное значение роли не играет.
+<p>С масштабом все граздо проще. Каждый аргумент - масштаб по соответствующей оси. Последняя функция - <b>glRect(...)</b> это просто замена блока 
+<pre>
+glBegin(GL_QUADS);
+	glVertex2f(-0.5, 0.5)
+	glVertex2f(0.5, 0.5);
+	glVertex2f(0.5, -0.5);
+	glVertex2f(-0.5, -0.5);
+glEnd();
+</pre>
+Это, так сказать, для ленивых.
+
+<p><b>P.S.</b> Если посмотреть повнимательнее, то в <b>OnDraw</b> есть еще 2 команды: <b>PopMatrix</b> и <b>PushMatrix</b>. Более подробно мы встретимся с этими командами в разделе <b>3D</b>, но смысл этих команд очень прост. Перед началом рисования мы как бы сохраняем текущее состояние сцены, т.е. состояние по умолчанию. При этом используется так называемый стек матриц. Попробуйте убрать эти команды из программы и посмотреть, что получится.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol><li>Создать проект.
+<li>Сделать диалог со своими переменными и создать класс диалога
+<li>Получить данные из диалога и преобразовать их в числовой вид
+<li>Произвести поворот и масштабирование в функции <b>OnDraw(...)</b>
+</ol>
+<p><hr><center><font size=2><a href=prog/28.zip>Загрузить проект</a> | <a href=27.html>Предыдущий шаг</a> | <a href=29.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

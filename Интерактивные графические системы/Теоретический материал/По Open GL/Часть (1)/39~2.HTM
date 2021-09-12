@@ -1,0 +1,58 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 39 - Отсечение.</h2></font>
+Библиотека <b>OpenGL</b> имеет очень удобную функцию для "разрезания" объектов. Чтобы не быть голословным, давайте посмотрим как это сделать. (такая опция часто бывает нужна во всевозможных CAD системах)
+<p>Возьмем предыдущий пример, тот самый где рисовалась <b>Quadric</b>-сфера.
+<p>Ради интереса сделаем из нее цилиндр, т.е заменим функцию <b>gluSphere</b> на <b>gluCylinder</b>.
+<p>Теперь добавим переменную-массив, который будет содержать координаты плоскости отсечения:
+<pre>
+	GLfloat eq[4];
+</pre>
+Заполним этот массив в конструкторе класса:
+<pre>
+CExampleView::CExampleView()
+{
+	// TODO: add construction code here
+	m_qObj = gluNewQuadric();
+	eq[0] = 0.0f;
+	eq[1] = 1.0f;
+	eq[2] = 0.0f;
+	eq[3] = 0.0f;
+	m_bClip = TRUE;
+}
+</pre>
+(переменная <b>m_bClip</b> это флаг, который меняет значение в обработчике меню, см. предыдущие шаги)
+<p>Теперь <b>OnDraw(...)</b>:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	if(m_bClip)
+	{
+		glClipPlane(GL_CLIP_PLANE0, eq);
+		glEnable(GL_CLIP_PLANE0);
+	} else
+		glDisable(GL_CLIP_PLANE0);
+
+	glColor3f(0.0f, 0.5f, 0.5f);
+	gluCylinder(m_qObj, 1.0f, 1.0f, 1.0f, 10, 10);
+
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+Функция <b>glClipPlane</b> собственно задает плоскость отсечения. Первый аргумент говорит какая плоскость будет включена, а второй содержит массив точек. Функция <b>glEnable</b> с аргументом <b>GL_CLIP_PLANE?</b> включает соответствующую плоскость.
+<p>В <b>OpenGL</b> очень часто всречается такой механизм задания параметров, когда в некую предопределенную в библиотеке "точку с номером" загружается нужное значение, а потом эта "точка" включается. Почему <b>SGI</b> сделала именно так  сказать трудно, но этот подход встречается не только в <b>OpenGL</b>, но и, например, в <b>SGI Digital Media</b>. Судя по всему это "стиль" <b>SGI</b> ;)
+<p>(если быть точнее, то этот "стиль" встречается там, где есть ограничение по количеству элементов, например количество источников света)
+<p><hr><center><font size=2><a href=prog/39.zip>Загрузить проект</a> | <a href=38.html>Предыдущий шаг</a> | <a href=40.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

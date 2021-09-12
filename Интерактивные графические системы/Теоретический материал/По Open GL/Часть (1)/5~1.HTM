@@ -1,0 +1,68 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 5 - Плоскости в пространстве</h2></font>
+<h3>Создание проекта</h3>
+Только изменение кода. 
+<h3>Создаем код</h3>
+Меняем функцию <b>display</b>
+<pre>
+void CALLBACK display (void)
+{
+glMatrixMode (GL_PROJECTION);
+glLoadIdentity ();
+gluPerspective (130, 1, 50, 0);
+glMatrixMode (GL_MODELVIEW);
+glLoadIdentity ();
+//_____________NEW _________
+gluLookAt (350, 350, 300, 150, 150, 0, 0, 1, 0);
+glColor3f(0.0, 0.0, 1);
+glBegin(GL_POLYGON);
+glVertex3f(100,100,100);
+glVertex3f(200,100,100);
+glVertex3f(200,100,200);
+glVertex3f(100,100,200);
+glEnd();    
+glColor3f(0.0, 1, 0);
+glBegin(GL_POLYGON);
+glVertex3f(100,100,100);
+glVertex3f(100,100,200);
+glVertex3f(100,200,200);
+glVertex3f(100,200,100);
+glEnd(); 
+glColor3f(1, 0, 0);
+glBegin(GL_POLYGON);
+glVertex3f(100,100,200);
+glVertex3f(100,200,200);
+glVertex3f(200,200,200);
+glVertex3f(200,100,200);
+glEnd(); 
+glColor3f(1, 0, 1);
+glBegin(GL_POLYGON);
+glVertex3f(100,100,100);
+glVertex3f(200,100,100);
+glVertex3f(200,200,100);
+glVertex3f(100,200,100);
+glEnd(); 
+// ________END NEW ________
+glFlush();
+}
+</pre>
+<h3>Описание</h3>
+Рисование в пространстве требует некоторого обьемного мышления. Если его нет, увы , правда у меня тоже нет. Но когда я учился в школе, мой преподаватель по физике при решении задач говорил - "Главное чертеж". В институте так уже не говорили. А жаль.
+<p>А Теперь взгляните на код. Поменялась точка зрения в <b>gluLookAt</b>. Это правильно, данные то другие.
+<p><b>GL_POLYGON</b> говорит о том, что из вершин соберутся полигоны. Для полигона(плоскости) необходимо минимум 3 точки. Помните - через любые 3 точки можно провести плоскость. Если вершин будет больше, то необходимо быть осторожным, для получения плоскости необходимо расчитывать координаты. Я отрисовал 4 грани (<b>glBegin.....glEnd</b>) 4 раза вызывается. 
+<p>Функцией <b>glColor3f</b> я сделал разную заливку граням. 
+<p>Собирайте, запускайте, очень красивая картинка. Попробуйте поменять точки зрения, работает !!!
+<hr>
+<h3>Шпаргалка</h3>
+Задайте рисование проскостей 
+<pre>
+glBegin(GL_POLYGON);
+</pre>
+Плоскость создается минимум из 3 точек. При большем количестве будьте осторожны. Помните геометрию !! Только через 3 точки гарантирована плоскость, остальное от лукавого.
+<p><hr><center><font size=2><a href=4.html>Предыдущий шаг</a> | <a href=6.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kaev@yandex.ru">Artem</a>.</center></body></html>

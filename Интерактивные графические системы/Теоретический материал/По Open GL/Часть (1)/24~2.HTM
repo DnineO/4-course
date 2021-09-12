@@ -1,0 +1,96 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 24 - Треугольники и цвета.</h2></font>
+В этом шаге мы рассмотрим рисование треугольников и их закраску.
+<p>Давайте как обычно создадим проект, добавим к классу <b>C...View</b> две переменные <b>m_iMode</b> и <b>m_iFlat</b>. В конструкторе класса проинициализируем их.
+<p>Добавим в меню <b>View</b> два новых подменю <b>Triangle Color Mode</b> и <b>Triangle Shade Mode</b> c соответствующими идентификаторами.
+<p>Напишем функции-обработчики этих меню:
+<pre>
+void CExampleView::OnTriagColorMode() 
+{
+	// TODO: Add your command handler code here
+	if(m_iMode==1)
+		m_iMode = 0;
+	else
+		m_iMode = 1;
+	InvalidateRect(NULL, FALSE);
+}
+
+void CExampleView::OnTriagShadeMode() 
+{
+	// TODO: Add your command handler code here
+	if(m_iFlat==1)
+		m_iFlat = 0;
+	else
+		m_iFlat = 1;
+	InvalidateRect(NULL, FALSE);
+}
+</pre>
+Логика действия очевидна, описывать не буду.
+<p>Теперь рассмотрим самую главную для нас функцию - <b>OnDraw(...)</b>
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glLineWidth (20);                   // размер точек
+	glColor3f (1.0, 0.0, 0.5);          // текущий цвет примитивов
+
+switch(m_iFlat)
+{
+case 0:
+	glShadeModel(GL_FLAT);
+	break;
+case 1:
+	glShadeModel(GL_SMOOTH);
+	break;
+}
+
+switch(m_iMode)
+{
+case 0:
+	glBegin (GL_TRIANGLES);
+		glVertex2f(0,0.5);
+		glVertex2f(0.5,-0.5);
+		glVertex2f(-0.5,-0.5);
+	glEnd();
+	break;
+case 1:
+	glBegin (GL_TRIANGLES);
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex2f(0,0.5);
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex2f(0.5,-0.5);
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex2f(-0.5,-0.5);
+	glEnd();
+	break;
+}
+}
+</pre>
+Попереключайте меню в разных комбинациях.
+<p>Наиболее интересная позиция - режим <b>GL_FLAT</b> + многоцветный треугольник. Результат на первый взгляд странный - треугольник синий.
+<p>Но если посмотреть внимательно, то последняя окрашиваемая вершина треугольника синяя.
+<p>Более того, если вы нарисуете несколько треугольников в режиме <b>STRIP</b> или <b>FAN</b> (их мы рассмотрим в следующем шаге), то все они будут нарисованы цветом последнего из них. Этот момент станет более понятным после того, как мы перейдем к 3-х мерным координатам.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol><li>Сделать стандартный проект
+<li>Сделать 2 переменные, 2 пункта меню и 2 обработчика
+<li>Обработать состояние переменных в функции <b>OnDraw(...)</b>
+</ol>
+<p><hr><center><font size=2><a href=prog/24.zip>Загрузить проект</a> | <a href=23.html>Предыдущий шаг</a> | <a href=25.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

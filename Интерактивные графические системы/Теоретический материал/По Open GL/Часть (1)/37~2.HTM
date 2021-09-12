@@ -1,0 +1,151 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 37 - "Симпатишный" кубик.</h2></font>
+Посмотрел я тут на те кубики, которые рисовал и подумал, что что-то в них не так. Потом еще подумал и решил, что в них граней нехватает. Посидел чуть-чуть и добавил свет.
+<p>Взял старый проект. Выкинул все лишнее, т.е. всякие обработчики, флаги, условия и т.д. Оставил только функцию <b>DrawCube</b>, но поменял ее чуть-чуть:
+<pre>
+GLvoid CExampleView::DrawCube()
+{
+	glBegin (GL_QUADS);
+		glNormal3f(0.0, 0.0, 1.0);
+		glVertex3f (1.0, 1.0, 1.0);
+		glVertex3f (-1.0, 1.0, 1.0);
+		glVertex3f (-1.0, -1.0, 1.0);
+		glVertex3f (1.0, -1.0, 1.0);
+	glEnd();
+
+	glBegin (GL_QUADS);
+		glNormal3f(0.0, 0.0, -1.0);
+		glVertex3f (1.0, 1.0, -1.0);
+		glVertex3f (1.0, -1.0, -1.0);
+		glVertex3f (-1.0, -1.0, -1.0);
+		glVertex3f (-1.0, 1.0, -1.0);
+	glEnd();
+
+	glBegin (GL_QUADS);
+		glNormal3f(-1.0, 0.0, 0.0);
+		glVertex3f (-1.0, 1.0, 1.0);
+		glVertex3f (-1.0, 1.0, -1.0);
+		glVertex3f (-1.0, -1.0, -1.0);
+		glVertex3f (-1.0, -1.0, 1.0);
+	glEnd();
+
+	glBegin (GL_QUADS);
+		glNormal3f(1.0, 0.0, 0.0);
+		glVertex3f (1.0, 1.0, 1.0);
+		glVertex3f (1.0, -1.0, 1.0);
+		glVertex3f (1.0, -1.0, -1.0);
+		glVertex3f (1.0, 1.0, -1.0);
+	glEnd();
+
+	glBegin (GL_QUADS);
+		glNormal3f(0.0, 1.0, 0.0);
+		glVertex3f (-1.0, 1.0, -1.0);
+		glVertex3f (-1.0, 1.0, 1.0);
+		glVertex3f (1.0, 1.0, 1.0);
+		glVertex3f (1.0, 1.0, -1.0);
+	glEnd();
+
+	glBegin(GL_QUADS);
+		glNormal3f(0.0, -1.0, 0.0);
+		glVertex3f (-1.0, -1.0, -1.0);
+		glVertex3f (1.0, -1.0, -1.0);
+		glVertex3f (1.0, -1.0, 1.0);
+		glVertex3f (-1.0, -1.0, 1.0);
+	glEnd();
+}
+</pre>
+А добавил я сюда нормали к граням куба. Нормаль - это перпендикуляр к грани. В данном примере они нужны для правильного расчета освещения. Попробуйте их убрать и у вас получится старый невзрачный кубик.
+<p>Нормаль - это важная штука. В зависимости от ее значения функции <b>OpenGL</b> могут работать по разному (т.е. показывать разные стороны граней или не показывать вообще или неправильно расчитывать освещение).
+<p>Если вы включите трассировку <b>MFC</b> сообщений, то сможете увидеть, что сообщение <b>WM_SIZE</b> приходит в приложение
+прямо перед началом работы (точнее оно посылается несколько раз в процессе инициализации приложения)
+<pre>
+WndProc: hwnd=0x0CA0, msg = WM_CREATE (0x0000, 0x0064F1EC)
+WndProc: hwnd=0x0CA0, msg = WM_SIZE (0x0000, 0xFFFC0000)
+</pre>
+Это наводит на мысли перенести код инициализаци в обработчик этой функции. Что я и сделал:
+<pre>
+void CExampleView::OnSize(UINT nType, int cx, int cy) 
+{
+	CView::OnSize(nType, cx, cy);
+	
+	// TODO: Add your message handler code here
+	CRect rect;
+
+	GetClientRect(&rect);
+
+	glViewport(0, 0, rect.right, rect.bottom);
+	glMatrixMode (GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum (-1, 1, -1, 1, 4, 10);
+	glMatrixMode (GL_MODELVIEW);
+	glLoadIdentity();
+
+ 	glTranslatef(0.0, 0.0, -8.0);
+	glRotatef(30.0, 1.0, 0.0, 0.0);
+	glRotatef(70.0, 0.0, 1.0, 0.0);
+
+	InvalidateRect(NULL, FALSE);
+}
+</pre>
+Кое-что я включил в функцию <b>OnCreate(...)</b>:
+<pre>
+int CExampleView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+{
+    PIXELFORMATDESCRIPTOR pfd;
+    int iPixelFormat;
+
+    if (CView::OnCreate(lpCreateStruct) == -1)
+        return -1;
+
+    // TODO: Add your specialized creation code here
+    pDC = GetDC();
+    memset(&pfd, 0, sizeof(pfd));
+    pfd.nSize = sizeof(pfd);
+    pfd.nVersion = 1;
+    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pfd.iPixelType = PFD_TYPE_RGBA;
+    pfd.iLayerType = PFD_MAIN_PLANE;
+    pfd.cDepthBits = 16;
+    iPixelFormat = ChoosePixelFormat(pDC->m_hDC, &pfd);
+    SetPixelFormat(pDC->m_hDC, iPixelFormat, &pfd);
+    m_hglrc = wglCreateContext(pDC->m_hDC);
+    wglMakeCurrent(pDC->m_hDC, m_hglrc);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0);
+	glEnable (GL_LIGHTING);
+	glEnable (GL_LIGHT0);
+	glEnable (GL_DEPTH_TEST);
+	glEnable (GL_COLOR_MATERIAL);
+
+    return 0;
+}
+</pre>
+Это кое-что есть такие вещи, которые можно включить в начале работы приложения и больше не трогать.
+<p>Как вы помните обработчик <b>WM_SIZE</b> может вызваться во время работы приложения, а <b>WM_CREATE</b> только на этапе инициализации.
+<p>Теперь внимательнее. Освещение включается командой <b>glEnable</b> с аргументом <b>GL_LIGHTING</b>, затем следует включение 1-го (т.е. 0-го) источника света. Установки по умолчанию для него - направленный, бесконечно удаленный, его интенсивность 1.0, 1.0, 1.0 по всем 3-м составляющим света, т.е. он белый.
+<p>Если вы попробуете включить другие источники, например <b>GL_LIGHT1</b>, то ничего не увидите, т.к. его положение совпадет с 0-м, а интенсивность 0.0, 0.0, 0.0, т.е. он попросту не светит. Вообще, к источникам света, определению их многочисленных параметров мы вернемся позже, пока я добавил источник света просто для очеловечивания сцены.
+<p>Если вы хотите, чтобы при освещении учитывался исходный цвет примитивов, то необходимо включить режим
+<b>GL_COLOR_MATERIAL</b> (последняя строчка в <b>OnCreate</b>). Если убрать эту строку, то куб будет бело-серым.
+<p>Ну и теперь "пустая" функция <b>OnDraw</b>:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glColor3f(0.0f, 0.5f, 0.5f);
+	DrawCube();
+
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+<p><hr><center><font size=2><a href=prog/37.zip>Загрузить проект</a> | <a href=36.html>Предыдущий шаг</a> | <a href=38.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

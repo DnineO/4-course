@@ -1,0 +1,42 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 1 - Окно OpenGL</h2></font>
+<h3>Создание проекта</h3>
+Создаем проект <b>Win32 Console</b>. 
+<p>На необходимо подключить, для компиляции данного проекта 2 библиотеки - <b>Glaux.lib</b> и <b>Opengl32.lib</b>. Добраться до установки библиотек можно с помощь <b>Project Setting - Link - Object library module</b>.
+<p>В этих библиотеках не код естественно, а ссылки на <b>DLL</b>. <b>OpenGL</b> теперь входит в поставку <b>Windows NT, Windows 98</b>.
+<p>В этом варианте мы получим отдельное окно <b>OpenGL</b>. На нем и будем тренироваться.
+<h3>Создаем код</h3>
+<pre>
+#include "afxwin.h"
+#include "GL/gl.h"
+#include "GL/glu.h"
+#include "GL/glaux.h"
+
+int main(int argc, char** argv)
+{
+ auxInitDisplayMode(AUX_RGB);
+ auxInitPosition (0, 0, 500, 500);
+ auxInitWindow ("Step1");
+ return 0;
+}
+</pre>
+
+<h3>Описание</h3>
+<b>OpenGL</b> является вероятно самым распространеным индустриальным программным интерфейсом <b>API</b> для разработки 3D-приложений. Он представляет собой открытый стандарт, созданный специалистами <b>SGI</b> и находящийся в ведении специального комитета <b>Architecture Review Board</b>, в работе которого участвуют и <b>SGI</b> и <b>Microsoft</b>.
+<p>Всё это круто. А теперь за программу !!!. 
+<p>Через <b>#include</b> необходимые заголовки с описанием функций. 
+<p><b>auxInitDisplayMode</b> Создает окно с переданными атрибутами. У нас это окно будет в палитре <b>RGB</b>, о чем и говорит параметр.
+<p><b>auxInitPosition</b> Установка разрешения окна или максимальных координат или позиции, смотря как вы это воспринимаете. Любое из высказываний вроде верно.
+<p><b>auxInitWindow</b> Открывает окно исходя и параметров установленных предыдущими командами и с именем в параметрах.
+<p>Если вы запустите и выполните программу, то появиться и изчезнет окно, скорость в зависимости от скорости вашего ПК :-). 
+
+<hr>
+<h3>Шпаргалка</h3>
+Окно нужно настроить для работы. 
+<p><hr><center><font size=2><a href=2.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kaev@yandex.ru">Artem</a>.</center></body></html>

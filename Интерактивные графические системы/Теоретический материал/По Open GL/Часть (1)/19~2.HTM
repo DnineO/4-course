@@ -1,0 +1,57 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 19 - Full Screen + MFC.</h2></font>
+Попробуем теперь сделать полноэкранное приложение.
+<p>Для упрощения жизни возьмем пример из <a href=16.html>шага 16</a>, там где мы рисовали 5 точек. Как вы помните для установки полноэкранного режима необходимо заполнить некоторые поля структуры <b>DEVMODE</b>. Сделаем эти установки в функции <b>PreCreateWindow</b> класса <b>CMainFrame</b>:
+<pre>
+BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
+{
+	if( !CFrameWnd::PreCreateWindow(cs) )
+		return FALSE;
+	// TODO: Modify the Window class or styles here by modifying
+	//  the CREATESTRUCT cs
+
+	cs.x = cs.y = 0;
+	cs.cx = GetSystemMetrics(SM_CXSCREEN);
+	cs.cy = GetSystemMetrics(SM_CYSCREEN);
+	cs.style = WS_POPUP;
+	cs.hMenu = NULL;
+
+	DEVMODE dmScreenSettings;
+
+	memset(&dmScreenSettings, 0, sizeof(DEVMODE));
+	dmScreenSettings.dmSize			= sizeof(DEVMODE);
+	dmScreenSettings.dmPelsWidth	= GetSystemMetrics(SM_CXSCREEN);
+	dmScreenSettings.dmPelsHeight	= GetSystemMetrics(SM_CYSCREEN);
+	dmScreenSettings.dmFields		= DM_PELSWIDTH | DM_PELSHEIGHT;
+	ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
+
+	return TRUE;
+}
+</pre>
+Практически все здесь взято из полноэкраного примера на <b>Win32 API</b>.
+<p>В функцию <b>OnClose</b> того же класса добавим стоку, восстанавливающую все настройки:
+<pre>
+void CMainFrame::OnClose() 
+{
+	// TODO: Add your message handler code here and/or call default
+	ChangeDisplaySettings(NULL, 0);
+	
+	CFrameWnd::OnClose();
+}
+</pre>
+Вот и все. Соберите этот проект. Выйти из програмки можно нажав <b>Alt+F4</b>. При желании можно добавить сюда выход по нажанию какой-нибудь другой клавиши.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol>
+<li>Создать проект из <a href=16.html>шага 16</a>.
+<li>Сделать изменения в <b>CMainFrame::PreCreateWindow</b>.
+<li>Добавить обработчик <b>WM_CLOSE</b> в классе <b>CMainFrame</b> и восстанавливать все установки по умолчанию.
+<li>При желании добавить еще что-нибудь.
+</ol>
+<p><hr><center><font size=2><a href=prog/19.zip>Загрузить проект</a> | <a href=18.html>Предыдущий шаг</a> | <a href=20.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

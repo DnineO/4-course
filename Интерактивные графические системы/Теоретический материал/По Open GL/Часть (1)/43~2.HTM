@@ -1,0 +1,103 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 43 - Сложная поверхность.</h2></font>
+В этом шаге попробуем загрузить из файла координаты вершин и нормалей и нарисовать сложную поверхность. Возьмем чистый <b>Win32</b> проект. Для упрощения жизни будем cчитывать все вершины в статический массив (хотя по уму надо читать в более сложную систему данных, но это пример и только) Не спрашивайте меня откуда я взял файл данных. Признаюсь чесно, я его своровал где-то в сети с какого-то из многочисленных примеров по <b>OpenGL</b>, так что не бейте сильно.
+<p>Итак предположим, что у нас не более чем 20000 вершин:
+<pre>
+	#define MAX_VERTS	20000
+</pre>
+Создадим массивы вершин и нормалей:
+<pre>
+	GLfloat			verts[MAX_VERTS][3];
+	GLfloat			norms[MAX_VERTS][3];
+</pre>
+Создадим переменную списка модели и переменную для хранения реального количества вершин и нормалей:
+<pre>
+	GLuint			shape;
+	GLuint			shape_max_verts;
+</pre>
+Справедливости ради объявим переменную - дескриптор файла:
+<pre>
+	FILE* fd;
+</pre>
+В <b>StartRC()</b> добавим строки для чтения данных из файла:
+<pre>
+GLvoid StartRC(HWND hWnd)
+{
+	glClearColor (0.5, 0.5, 0.75, 1.0);
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_LIGHT0);
+
+	fd = fopen("Sample.dat", "r+");
+
+	for(int i=0; i&lt;MAX_VERTS; i++)
+	{
+		int end = fscanf(fd, "%f", &verts[i][0]);
+		if(end==EOF)
+		{
+			shape_max_verts = i;
+			break;
+		}
+		fscanf(fd, "%f", &verts[i][1]);
+		fscanf(fd, "%f", &verts[i][2]);
+
+		fscanf(fd, "%f", &norms[i][0]);
+		fscanf(fd, "%f", &norms[i][1]);
+		fscanf(fd, "%f", &norms[i][2]);
+	}
+
+	CalcList();
+}
+</pre>
+В функции формирования списка воспользуемся полученной переменной <b>shape_max_verts</b>:
+<pre>
+GLvoid CalcList(void)
+{
+	shape = glGenLists(1);
+	glNewList(shape, GL_COMPILE);
+		glBegin(GL_TRIANGLE_STRIP);
+			for(unsigned int i=0; i&lt;shape_max_verts; i++)
+			{
+				glNormal3fv(norms[i]);
+				glVertex3fv(verts[i]);
+			}
+		glEnd();
+	glEndList();
+}
+</pre>
+Вот и вся подготовка, теперь просто отображаем сгенерированный список:
+<pre>
+GLvoid Draw()
+{
+	static GLfloat rot;
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glPushMatrix();
+	glRotatef(rot, 1.0f, 1.0f, 1.0f);
+	glCallList(shape);
+	glPopMatrix();
+	rot++;
+	SwapBuffers(hDC);
+}
+</pre>
+Осталось только удалить список в <b>StopRC()</b>:
+<pre>
+GLvoid StopRC(HWND hWnd)
+{
+	glDeleteLists(shape, 1);
+	fclose(fd);
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_COLOR_MATERIAL);
+}
+</pre>
+<p><hr><center><font size=2><a href=prog/43.zip>Загрузить проект</a> | <a href=42.html>Предыдущий шаг</a> | <a href=44.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

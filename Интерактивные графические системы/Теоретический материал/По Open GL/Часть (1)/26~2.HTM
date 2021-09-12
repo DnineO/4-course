@@ -1,0 +1,70 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 26 - Списки вершин.</h2></font>
+Список вершин - это достаточно удобная штука, если вам надо изобразить сложную фигуру с большим количеством вершин. В этом случае вы можете загрузить все вершины в массив (а так же загрузить и массив цветов) и с помошью специальной команды <b>glDrawArrays(...)</b> отобразить всю фигуру. Кроме того на многих акселях эта команда реализована аппаратно. Такой подход много эффективнее чем рисование всех вершин при помощи <b>glVertex..(...)</b>.
+<p>Давайте рассмотрим пример рисования списка вершин.
+<p>Как обычно создадим уже надоевший всем проект. Объявим 2 переменные, массив вершин и массив цветов:
+<pre>
+ GLfloat Vertex[4][2];
+ GLfloat Colors[4][3];
+</pre>
+В конструкторе <b>C...View</b> заполним эти массивы:
+<pre>
+    Vertex[0][0] = -0.9f;
+    Vertex[0][1] = -0.9f;
+    Colors[0][0] = 0.1f;
+    Colors[0][1] = 0.5f;
+    Colors[0][2] = 0.85f;
+
+    Vertex[1][0] = -0.9f;
+    Vertex[1][1] = 0.9f;
+    Colors[1][0] = 0.85f;
+    Colors[1][1] = 0.1f;
+    Colors[1][2] = 0.5f;
+
+    Vertex[2][0] = 0.9f;
+    Vertex[2][1] = 0.9f;
+    Colors[2][0] = 0.85f;
+    Colors[2][1] = 0.85f;
+    Colors[2][2] = 0.85f;
+
+    Vertex[3][0] = 0.9f;
+    Vertex[3][1] = -0.9f;
+    Colors[3][0] = 0.5f;
+    Colors[3][1] = 0.85f;
+    Colors[3][2] = 0.1f;
+</pre>
+Теперь осталось указать <b>OpenGL</b>, что мы хотим использовать эти массивы и как мы их хотим использовать. Для этого воспользуемся 2 командами:
+<pre>
+ glVertexPointer(2, GL_FLOAT, 0, Vertex);
+ glColorPointer(3, GL_FLOAT, 0, Colors);
+</pre>
+Для того, чтобы функция <b>glDrawArray</b> сработала корректно нам необходимо включить этот режим. К сожалению включение данного режима выполняется не стандартной командой <b>glEnable</b>, а специальной <b>glEnableClientState(...)</b> с соответствующим аргументом. В данном случае мы включаем режим массива вершин для цветов и вершин
+<pre>
+ glEnableClientState(GL_VERTEX_ARRAY);
+ glEnableClientState(GL_COLOR_ARRAY);
+</pre>
+Уфф... Теперь все. Можем спокойно вызвать <b>glDrawArray(...)</b> и посмотреть, что получилось.
+<pre>
+ glDrawArrays(GL_POLYGON, 0, 4);
+</pre>
+Теперь осталось только выключить режимы, которые включили выше. Делается это аналогичными командами:
+<pre>
+ glDisableClientState(GL_COLOR_ARRAY);
+ glDisableClientState(GL_VERTEX_ARRAY);
+</pre>
+<hr>
+<h3>Шпаргалка.</h3>
+Для работы с массивами вершин необходимо:
+<ol><li>Объявить и инициализировать массивы вершин и цветов
+<li>Загрузить эти массивы в <b>OpenGL</b> ;)
+<li>Включить режимы рисования массива вершин
+<li>рисовать
+<li>выключить режим рисования массива вершин
+</ol>
+<p><hr><center><font size=2><a href=prog/26.zip>Загрузить проект</a> | <a href=25.html>Предыдущий шаг</a> | <a href=27.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

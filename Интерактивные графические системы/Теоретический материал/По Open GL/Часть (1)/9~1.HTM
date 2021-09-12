@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 9 - Первые объекты</h2></font>
+<p>Продолжим изучение <b>fullscreen OpenGL</b> ;)
+<p>Надеюсь, что вы успешно преодолели предыдущий шаг и сделали скелет приложения.
+(надо отметить, что с точки зрения синтаксических ошибок он самый сложный)
+<p>Теперь я не буду полностью приводить весь код (его много и он повторяется), а буду приводить отдельные функции  или, если они большие, то буду указывать, что и куда добавить.
+<p>Итак в этом шаге мы будем рисовать треугольничек и квадратик. Опять создайте новый проект <b>Win32</b>. Скопируйте туда файл <b>skeleton.cpp</b> и переименуйте его. Настройте проект (т.е. добавьте библиотеки). Замените имя окна и имя класса окна ( это так, приличия ради )
+<p>Все, что мы будем делать в этом шаге - это дополним функцию <b>Draw();</b>
+<pre>
+GLvoid Draw(GLvoid)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+
+	glTranslatef(-1.5f, 0.0f, -5.0f);
+
+	// модифицируем текущую матрицу ( которая в данный момент единичная).
+	// Посмотрите MSDN по этой функции. Мы будем постоянно ее использовать 
+	// ( и функция glRotatef(:) в пре с ней ). Понимание матричных 
+	// операций и их реализацию в OpenGL - это ключ к победе. 
+	// Главное помнить, что все построения в OpenGL происходят 
+	// относительно текушей матрицы (той, которая находится на вершине 
+	// матричного стека, но это я забегаю вперед )
+
+	glBegin(GL_TRIANGLES);		// Начинаем рисовать треугольник
+		glVertex3f( 0.0f, 1.0f, 0.0f);	// Top
+		glVertex3f(-1.0f,-1.0f, 0.0f);	// Bottom Left
+		glVertex3f( 1.0f,-1.0f, 0.0f);	// Bottom Right
+	glEnd();
+
+	glLoadIdentity();
+
+	// Приводим текущую матрицу в единичную ( попробуйте 
+	// закомментировать эту строку, получите квадрат, отстоящий 
+	// от треугольника на -5.0 ;) Что ж, как говорится: "Учите мат. часть,
+	// товарищ курсант" )
+
+	glTranslatef(1.5f, 0.0f, -5.0f);
+	glBegin(GL_QUADS);			// Рисуем квадратик
+		glVertex3f(-1.0f, 1.0f, 0.0f);	// Top Left
+		glVertex3f( 1.0f, 1.0f, 0.0f);	// Top Right
+		glVertex3f( 1.0f,-1.0f, 0.0f);	// Bottom Right
+		glVertex3f(-1.0f,-1.0f, 0.0f);	// Bottom Left
+	glEnd();
+}
+</pre>
+Вот и все.
+В следующем шаге мы их покрасим ;)
+<p><hr><center><font size=2><a href=prog/9.zip>Загрузить проект</a> | <a href=8.html>Предыдущий шаг</a> | <a href=10.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

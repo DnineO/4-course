@@ -1,0 +1,94 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 7 - Полетаем</h2></font>
+<h3>Создание проекта</h3>
+Только изменение кода. 
+<h3>Создаем код </h3>
+Вводим переменные 
+<pre>
+#include "afxwin.h"
+#include "GL/gl.h"
+#include "GL/glu.h"
+#include "GL/glaux.h"
+
+int x; 
+int y;
+...........
+
+</pre>
+Изменяем реакцию на нажатие клавиш 
+<pre>
+void CALLBACK ProcUp (void)
+{
+ y=y-20;
+ display();
+}
+
+void CALLBACK ProcDown (void)
+{
+ y=y+20;
+ display();
+}
+
+void CALLBACK  RrocLeft(void)
+{
+ x=x-20;
+ display();
+}
+
+void CALLBACK  ProcRight(void)
+{
+ x=x+20;
+ display();
+}
+</pre>
+Изменение <b>display</b>
+<pre>
+void CALLBACK display (void)
+{
+glClear(GL_COLOR_BUFFER_BIT);
+.............
+gluLookAt (x, y, 300, 150, 150, 0, 0, 1, 0);
+........
+}
+</pre>
+Начальные установки 
+<pre>
+int main(int argc, char** argv)
+{
+x=350;
+y=350;
+................
+}
+</pre>
+<h3>Описание</h3>
+Скомпилируйте и запустите. Нажмайте клавиши и вы полетите !!! Да будет не очень плавно. Изображение будет пропадать частично. Но вы полетите.
+<p>Конечно существуют буферы , и настройки которые улучшают изображение. Поэтому поводу и по поводу всех моих шагов я перескажу притчу из Нового Завета. 
+<table border=0 align=center width=85%><tr><td>
+<p align=justify><i>Посеял хозяин пшеницу. Прошло время и он послал слуг посмотреть как дела.
+Пришли слуги и говорят, там вместе с пшеницей плевела. Что нам делать? Вырывать плевела?
+Остановитесь неразумные. Вместе с плевелами вы вырвете пшеницу.
+Дождитесь осени, соберите всё что выросло, отделите плевела от пшеницы. Сожгите плевела, а пшеницу поместите в амбар.</i>
+</table>
+Итак давайте отвлечемся от недостатков и сконцентрируемся на реультате. 
+<p>Как видете функцию <b>display</b> можно вызывать в любом месте. Этим мы и воспользовались. Поменяли параметры <b>gluLookAt (y, x, ....</b> на переменные. Которые изменяем при нажатии и вызываем перерисовку. Еще я добавил функцию <b>glClear</b> для очистки экрана. Закомментируйте её и вы получите интересный результат.
+<h3>Шпаргалка</h3>
+Очишайте экран 
+<pre>
+glClear(GL_COLOR_BUFFER_BIT);
+</pre>
+Для перерисовки вызываете функцию <b>display</b>
+<pre>
+void CALLBACK  RrocLeft(void)
+{
+ ...........
+ display();
+}
+
+</pre>
+<p><hr><center><font size=2><a href=6.html>Предыдущий шаг</a> | <a href=8.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kaev@yandex.ru">Artem</a>.</center></body></html>

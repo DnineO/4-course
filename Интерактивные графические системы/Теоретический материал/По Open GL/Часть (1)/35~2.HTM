@@ -1,0 +1,77 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 35 - Матрицы в OpenGL.</h2></font>
+Ранее я уже упоминал о понятии матрицы. Нет смысла в этих коротких шагах объяснять основы линейной алгебры. И вообще разводить тут "большую" теорию. Достаточно того, что при помощи некоторых операций над матрицами  мы можем перевести координаты из одной системы координат в другую, т.е. в нашем случае из системы координат связанной с моделью (<b>3D</b>) в систему координат связанную с плоскостью отображения (<b>Window</b>). Можно догадаться, что для этих операций существует 2 типа матриц: матрицы модели (<b>modelview</b>) и матирицы проекции (<b>projection</b>). Разумеется все остальные операции в <b>OpenGL</b>: перенос, масштаб, поворот осуществляются тоже при помощи матриц.
+<p>В данном примере мы попоробуем заменить стандартную команду <b>glTranslate(...)</b> на свою. Прежде всего подготовим эту "свою" матрицу.
+Сделаем член класса <b>C...View</b>, навовем его, например, <b>GLfloat mt[4][4];</b>
+<p>В конструкторе класса проинициализируем его:
+<pre>CExampleView::CExampleView()
+{
+	// TODO: add construction code here
+	memset(mt, 0, 16*sizeof(GLfloat));
+
+	mt[0][0] = 1;
+	mt[1][1] = 1;
+	mt[2][2] = 1;
+	mt[3][3] = 1;
+	mt[3][2] = -8;
+}</pre>
+(не забудьте обнулить все элементы массива перед его заполнением, к сожалению <b>VС++</b> не обнуляет
+статические массивы)
+<p>Теперь изменим <b>OnDraw(...)</b>:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+	CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0);
+	glClear (GL_COLOR_BUFFER_BIT);
+
+	glColor3f (1.0, 0.0, 0.5);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum (-1, 1, -1, 1, 3, 10);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+	glMultMatrixf((const GLfloat*)mt);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glRotatef(30.0, 1.0, 0.0, 0.0);
+	glRotatef(70.0, 0.0, 1.0, 0.0);
+
+	DrawCube();
+
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+Вместо функции <b>glTranslate</b> поставим <b>glMultMatrix</b>. Как можно заметить ничего при этом не изменилось. Таким образом можно сделать вывод о том, что же делает команда <b>glTranslate</b>. Функция <b>OnDraw</b> притерпела еще одно изменение. В нее добавлено несколько строк:
+<pre>
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum (-1, 1, -1, 1, 3, 10);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+</pre>
+Такая последовательность команд является стандартной, ее логика будет понятна позже, пока не стоит забивать себе голову. По сути дела этот блок делает следующее:
+<ul>
+<li>Переключается для работы с матрицей проекции
+<li>Грузим единичную матрицу
+<li>Устанавливает пространство отсечения
+<li>Переключаемся опять в матрицу модели
+<li>Грузим единичную матрицу
+</ul>
+<p><hr><center><font size=2><a href=prog/35.zip>Загрузить проект</a> | <a href=34.html>Предыдущий шаг</a> | <a href=36.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

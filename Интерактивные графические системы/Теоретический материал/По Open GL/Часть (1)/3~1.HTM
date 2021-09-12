@@ -1,0 +1,57 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 3 - Линия 3D</h2></font>
+<h3>Создание проекта</h3>
+Будем изменять старый. Изменения функции <b>display</b>. 
+<p>Нам необходимо подключить еще одну библиотеку - <b>Glu32.lib</b>. Как в первом шаге.
+
+<h3>Создаем код</h3>
+<pre>
+#include "afxwin.h"
+#include "GL/gl.h"
+#include "GL/glu.h"
+#include "GL/glaux.h"
+
+void WINAPI  display(void); 
+
+int main(int argc, char** argv)
+{
+ auxInitDisplayMode (AUX_SINGLE | AUX_RGB);
+ auxInitPosition (0, 0, 500, 500);
+ auxInitWindow ("Step1");
+ auxMainLoop(display);
+ return 0;
+}
+
+void CALLBACK display(void)
+{
+ glColor3f(0,1,1);
+ glBegin(GL_LINES); 
+   glVertex3f (0,0,0); 
+   glVertex3f (0,0,100); 
+ glEnd();
+ glBegin(GL_LINES); 
+   glVertex3f (0,0,0); 
+   glVertex3f (0,100,0); 
+ glEnd();
+ glBegin(GL_LINES); 
+   glVertex3f (0,0,0); 
+   glVertex3f (100,0,0); 
+ glEnd();
+ glFlush();
+}
+</pre>
+<h3>Описание </h3>
+Суть заключается в том , чтобы нарисовать оси координат. Вначале мы устанавливаем цвет <b>glColor3f</b> в палитре <b>RGB</b> устанавливает цвет рисуемых вершин.
+<p>Далее мы командами <b>glBegin - glEnd</b> создаем 3 линии. При создании линии, мы используем команду для установки вершин <b>glVertex3f</b>, которая имеет три координаты <b>Х,Y,Z</b>. 
+<p>Когда вы запустите програму то увидете просто голубой угол. Одна из координат выродилась в точку.
+<hr>
+<h3>Шпаргалка</h3>
+Текущий цвет меняется функцией <b>glColor3f</b>. 
+<p>Каждый элемент отделяется функцитями <b>glBegin()</b> и <b>glEnd()</b>
+<p><hr><center><font size=2><a href=2.html>Предыдущий шаг</a> | <a href=4.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kaev@yandex.ru">Artem</a>.</center></body></html>

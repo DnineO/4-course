@@ -1,0 +1,68 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 29 - Перенос.</h2></font>
+В этом шаге рассмотрим перенос вещества в пространстве. Создадим проект и приготовимся вращать руками и головой. Добавим в файл <b>stdafx.h</b> следующие строки:
+<pre>
+#include &lt;math.h&gt;
+#define Pi	3.14159
+</pre>
+Как вы понимаете, это для синусов и косинусов.
+<p>Все остальные изменения проекта будут касаться только функции <b>OnDraw(...)</b>. Её код теперь таков:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glColor3f (1.0, 0.0, 0.5);          // текущий цвет примитивов
+
+	for(int i=0; i<6; i++)
+	{
+		glTranslatef (-0.7f * (float)cos (Pi * i / 3),
+			 0.7f * (float)sin (Pi * i / 3), 0.0);
+		glRotatef (-60.0f * i, 0, 0, 1);
+		glBegin (GL_POLYGON);
+			glVertex2f (-0.25f, -0.25f);
+			glVertex2f (-0.25f, 0.25f);
+			glVertex2f (0.25f, 0.25f);
+			glVertex2f (0.25f, -0.25f);
+		glEnd();
+		glRotatef (60.0f * i, 0, 0, 1);
+		glTranslatef (0.7f * (float)cos (Pi * i / 3),
+			 -0.7f * (float)sin (Pi * i / 3), 0.0);
+	}
+
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+Здесь мы рисуем шесть квадратиков. Но смысл не в том, что мы рисуем, а как. В примере мы шесть раз как бы переносим систему координат. Если быть более точным, то мы 6 раз изменяем матрицу модели, но о матрицах модели и других типах матриц чуть позже. Пока главное понять последовательность действий. Логика такова.
+<ol type=a>
+<li>Перемещаем систему координат
+<li>Поворачиваем её
+<li>Рисуем квадрат
+<li>Еще поворачиваем систему координат
+<li>Перемещаем систему координат
+</ol>
+Не знаю кому как, но мне очень помогает рисование преобразований объекта на бумаге. Попробуйте, например, поменять местами <b>glTranslate</b> и <b>glRotate</b> и потом разобраться почему так получилось.
+<p>Как я уже говорил когда-то, операции <b>glTranslate</b> и <b>glRotate</b> одни из самых важных в библиотеке <b>OpenGL</b>, поэтому имеет смысл разобраться что тут к чему на примере <b>2D</b>, чтобы в <b>3D</b> к этому не возвращаться.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol><li>Создать проект.
+<li>Изменить функцию <b>OnDraw(...)</b>
+<li>Много экспериментировать с примером ;)
+</ol>
+<p><hr><center><font size=2><a href=prog/29.zip>Загрузить проект</a> | <a href=28.html>Предыдущий шаг</a> | <a href=30.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

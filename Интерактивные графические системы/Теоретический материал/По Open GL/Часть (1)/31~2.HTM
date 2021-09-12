@@ -1,0 +1,134 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 31 - Пространство - это куб.</h2></font>
+В этом шаге нарисуем кубик и посмотрим как влияют установки вида на вид кубика.
+<p>Как обычно делаем проект. Добавим в проект 2 переменных: <b>m_iMode</b> - определяет режим вывода граней куба, <b>m_fFar</b> - определяет дальнее расстояние границ пространства.
+<p>Для упрощения функции <b>OnDraw(...)</b> добавим функцию <b>DrawCube(void)</b>, которая будет просто рисовать куб, отрисовывая последовательно все его 6 граней. Чтобы посмотреть разные режимы отображения полигонов сделаем пункт меню (<b>View->Mode</b>) и сделаем его (меню) обработчик, который будет изменять режим. Вот его код:
+<pre>
+void CExampleView::OnViewMode() 
+{
+	// TODO: Add your command handler code here
+	if(m_iMode&gt;=2)
+		m_iMode = 0;
+	else
+		m_iMode++;
+	InvalidateRect(NULL, FALSE);
+}
+</pre>
+Комментарии излишни.
+<p>Теперь сделаем обработчик от клавиатуры. Напишем его так, чтобы при нажатии на стрелку вверх дальняя граница пространства отодвигалась, а при нажатии на стрелку вниз - приближалась. Допустим такой код:
+<pre>
+void CExampleView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
+{
+	// TODO: Add your message handler code here and/or call default
+
+	if(nChar==VK_UP)
+		m_fFar+=0.5f;
+	if(nChar==VK_DOWN)
+		m_fFar-=0.5f;
+	InvalidateRect(NULL, FALSE);
+
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+</pre>
+Разумеется, незабудьте создать переменные <b>m_iMode</b> и <b>m_fFar</b> и проинициализировать их в конструкторе.
+<p>Теперь наша многострадальная функция <b>OnDraw(...)</b> примет следующий вид:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+	CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0);
+	glClear (GL_COLOR_BUFFER_BIT);
+
+	glColor3f (1.0, 0.0, 0.5);
+
+	glLoadIdentity();
+	glFrustum (-1, 1, -1, 1, 3, m_fFar);
+	glTranslatef(0.0, 0.0, -8.0);
+
+	glRotatef(30.0, 1.0, 0.0, 0.0);
+	glRotatef(70.0, 0.0, 1.0, 0.0);
+
+switch(m_iMode)
+{
+case 0:
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	break;
+case 1:
+	glEnable(GL_POINT_SMOOTH);
+	glPointSize(10);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+	break;
+case 2:
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	break;
+}
+
+	DrawCube();
+
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+Где функция <b>DrawCube(void)</b> выглядит так:
+<pre>
+GLvoid CExampleView::DrawCube()
+{
+	glBegin (GL_QUADS);
+		glVertex3f (1.0, 1.0, 1.0);
+		glVertex3f (-1.0, 1.0, 1.0);
+		glVertex3f (-1.0, -1.0, 1.0);
+		glVertex3f (1.0, -1.0, 1.0);
+	glEnd();
+
+	glBegin (GL_QUADS);
+		glVertex3f (1.0, 1.0, -1.0);
+		glVertex3f (1.0, -1.0, -1.0);
+		glVertex3f (-1.0, -1.0, -1.0);
+		glVertex3f (-1.0, 1.0, -1.0);
+	glEnd();
+
+	glBegin (GL_QUADS);
+		glVertex3f (-1.0, 1.0, 1.0);
+		glVertex3f (-1.0, 1.0, -1.0);
+		glVertex3f (-1.0, -1.0, -1.0);
+		glVertex3f (-1.0, -1.0, 1.0);
+	glEnd();
+
+	glBegin (GL_QUADS);
+		glVertex3f (1.0, 1.0, 1.0);
+		glVertex3f (1.0, -1.0, 1.0);
+		glVertex3f (1.0, -1.0, -1.0);
+		glVertex3f (1.0, 1.0, -1.0);
+	glEnd();
+
+	glBegin (GL_QUADS);
+		glVertex3f (-1.0, 1.0, -1.0);
+		glVertex3f (-1.0, 1.0, 1.0);
+		glVertex3f (1.0, 1.0, 1.0);
+		glVertex3f (1.0, 1.0, -1.0);
+	glEnd();
+
+	glBegin(GL_QUADS);
+		glVertex3f (-1.0, -1.0, -1.0);
+		glVertex3f (1.0, -1.0, -1.0);
+		glVertex3f (1.0, -1.0, 1.0);
+		glVertex3f (-1.0, -1.0, 1.0);
+	glEnd();
+}
+</pre>
+Единственная особенность новой <b>OnDraw(...)</b> - это 2 команды <b>glRotatef(...)</b>, которые просто поворачивают систему координат для удобного простора объекта. Если вы закомментируете эти функции, станет понятно их предназначение.
+<p>Вот собственно и все. Соберите проект и понажимайте стрелки...
+<p><hr><center><font size=2><a href=prog/31.zip>Загрузить проект</a> | <a href=30.html>Предыдущий шаг</a> | <a href=32.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

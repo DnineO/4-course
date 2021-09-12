@@ -1,0 +1,69 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 11 - Покрутимся.</h2></font>
+В этом шаге мы, наконец-то выберемся за пределы 2D и сможем покруться в свое удовольствие.
+<p>Как обычно, создадим новый проект с именем <b>RotTriQuad</b>, скопируем туда файл из <b>ColorTriQuad</b>(предыдущий проект), переименуем этот файл и настроим проект.
+<p>Все изменения опять будут только в функции <b>Draw()</b>, но понадобится добавить парочку глобальных переменных <b>Trot</b> и <b>Qrot</b>, это углы поворота для треугольника и для квадрата соответственно.
+<pre>
+GLfloat Trot;
+GLfloat Qrot;
+
+GLvoid Draw(GLvoid)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+
+	glTranslatef(-1.5f, 0.0f, -5.0f);
+	glRotatef(Trot, 1.0f, 1.0f, 1.0f);	// вот тут весь секрет. 
+
+	// Функция glRotate выполняет  вращение текущей матрицы на угол,
+	// указанный первым аргументом и делает это вокруг осей, 
+	//заданных 2-м, 3-м, 4-м аргументами, т.е. вокруг x,y,z.
+	// Принципиальное значение имеет последовательность функций 
+
+// glRotatef(:)
+// glTranslatef(:)
+// или
+// glTranslatef(:)
+// glRotatef(:)
+
+// попробуйте поменять их местами
+
+	glBegin(GL_TRIANGLES);
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f( 0.0f, 1.0f, 0.0f);	// Top
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f,-1.0f, 0.0f);	// Bottom Left
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3f( 1.0f,-1.0f, 0.0f);	// Bottom Right
+	glEnd();
+
+	glLoadIdentity();	// не забудьте привести матрицу, 
+				//а то квадратик вокруг треугольничка поедет ;)
+
+	glTranslatef(1.5f, 0.0f, -5.0f);
+	glRotatef(Qrot, 1.0f, 1.0f, 1.0f);
+
+	glColor3f(0.3f, 0.2f, 0.4f);
+	glBegin(GL_QUADS);
+		glVertex3f(-1.0f, 1.0f, 0.0f);	// Top Left
+		glVertex3f( 1.0f, 1.0f, 0.0f);	// Top Right
+		glVertex3f( 1.0f,-1.0f, 0.0f);	// Bottom Right
+		glVertex3f(-1.0f,-1.0f, 0.0f);	// Bottom Left
+	glEnd();
+
+	Trot += 0.3f;
+	Qrot -= 0.3f;
+}
+</pre>
+Вот так вот. Это называеся танец примитивов ;)
+<p>На этом шаге стоит остановиться и провести время экспериментируя с функциями <b>glTranslatef</b>, <b>glRotatef</b> и <b>glScale</b>(ее нет в это примере, но я думаю понятно из названия, что она меняет масштаб).
+<p>Для всех геометрических преобразований мы будем в основном использовать эти функции, поэтому от понимания их работы и взаимодействия друг с другом зависит будущее наших шагов ;) 
+<p>Возможно, что придется немного посидеть с карандашиком и листом бумаги, но это только на пользу (я вот недавно узнал, что писать руками очень трудно, и как я это в школе делал не понимаю).
+<p>Теперь пришло время из плоских фигур сделать объемные. Проходите, проходите дальше. Не задерживайтесь в дверях.
+<p><hr><center><font size=2><a href=prog/11.zip>Загрузить проект</a> | <a href=10.html>Предыдущий шаг</a> | <a href=12.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

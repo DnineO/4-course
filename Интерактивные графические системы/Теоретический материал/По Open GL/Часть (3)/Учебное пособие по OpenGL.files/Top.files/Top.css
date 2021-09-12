@@ -1,0 +1,30 @@
+BODY {
+	FONT-SIZE: 12px; CURSOR: default; FONT-FAMILY: tahoma, verdana, arial; BACKGROUND-COLOR: #f5fafa; TEXT-ALIGN: justify
+}
+.adv {
+	VERTICAL-ALIGN: middle
+}
+.bluebtn {
+	FONT-WEIGHT: bold; FONT-SIZE: 13px; BORDER-LEFT: 2px; CURSOR: hand; COLOR: #d5f2ff; FONT-FAMILY: tahoma, verdana, arial; BACKGROUND-COLOR: #65a7cb; TEXT-ALIGN: center
+}
+.redbtn {
+	FONT-WEIGHT: bold; FONT-SIZE: 13px; BORDER-LEFT: 2px; CURSOR: hand; COLOR: #f2e5e5; FONT-FAMILY: tahoma, verdana, arial; BACKGROUND-COLOR: #a88f94; TEXT-ALIGN: center
+}
+.greybtn {
+	FONT-WEIGHT: bold; FONT-SIZE: 13px; BORDER-LEFT: 2px; CURSOR: hand; COLOR: #e5f0f2; FONT-FAMILY: tahoma, verdana, arial; BACKGROUND-COLOR: #7da4be; TEXT-ALIGN: center
+}
+.bitmapbtn {
+	FONT-SIZE: 0px; CURSOR: hand; BACKGROUND-COLOR: #65a7cb; TEXT-ALIGN: center
+}
+TD {
+	FONT-SIZE: 13px; COLOR: #65a7cb; FONT-FAMILY: Tahoma; TEXT-ALIGN: left
+}
+TD.m {
+	FONT-SIZE: 13px; COLOR: #65a7cb; FONT-FAMILY: Tahoma; BACKGROUND-COLOR: #65a7cb; TEXT-ALIGN: left
+}
+A {
+	COLOR: #d5f2ff; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #ffffff
+}

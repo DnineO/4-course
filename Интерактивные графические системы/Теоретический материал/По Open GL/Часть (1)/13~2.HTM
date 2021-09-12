@@ -1,0 +1,129 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 13 - Текстуры.</h2></font>
+Ну вот и свершилось наконец-то. Я родил шаг номер 13. Хммм... цифра наводит на мысли ;)
+<p>Но не будем о грустном. Как я и обещал когда-то раньше, в этом шаге объекты на экране получат текстуру.
+<p>Сначала я хотел пойти в том же ключе, что и раньше, т.е. 2 объекта, текстура на одном, текстура на другом, стереосистема справа, стереосистема слева и ... и потом решил, что все это не интересно. Решил потратить время на "прикольную" текстуру. Начал искать, полез на свою станцию и нашел забавный живой телевизор, он, оказывается, входит в комплект поставки <b>Irix 6.2</b> от <b>SGI</b>. Но вот проблема встала - телевизор там в видео ролике. И решил я, что надо динамическую текстурку слепить, да посмотреть что из этого получится. Слепил, посмотрел, ничего, жить будет, для учебных целей пойдет.
+<p>Прежде всего бросьте читать эти буковки и посмотрите код. Мне кажется и объяснять-то там нечего, но раз уж назвался ... то я полез в печку.
+<p>И так - объяснения.
+<p>Программка практически копирует предыдущие. Т.е. берем опять скелет <b>win32</b> приложения (проще всего взять от <b>PiraCube</b>), вырезаем оттуда все лишнее и вставляем все нужное, куда уж проще ;). Ну, а если серьезно, то изменения такие:
+<p>В глобальных переменных:
+<pre>
+	#define FRAME_RATE 7  
+</pre>Это предельное значение счетчика <b>LoopCount</b>. Нужен он потому, что моя лень победила и мне не хотелось писать код, который бы менял текстуру 25 раз в секунду, т.е. как в TV. Поэтому, если у вас ролик крутится медленно или быстро, то можно поменять эту цыфирьку и станет лучше (может быть ;) )
+<pre>
+	BOOL Fm;
+</pre>Сие опять моя лень, т.е. просто булева переменная, по изменению которой мы переключаемся на новый элемент массива текстур
+<pre>
+	int LoopCount;
+</pre>Об этом "левом" счетчике я уже говорил. Поместил я его в цикл while(1)
+<pre>
+	GLint TexNum;
+</pre>
+ А это собственно и сам номер картинки.
+<p>В функциях:
+<p>Изменения претерпела функция <b>LoadGLTexture</b>, сейчас она выглядит так:
+<pre>
+    GLvoid LoadGLTexture(GLvoid)
+    {
+        int i;
+        char buffer[30];
+        AUX_RGBImageRec *txtre[12];
+
+        for(i=1; i<=12; i++)
+        {
+            sprintf(buffer,"./Images/0%d.bmp",i);
+            txtre[i-1] = auxDIBImageLoad(buffer);
+
+            glBindTexture (GL_TEXTURE_2D, i);
+            glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+            glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexEnvf (GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+            glTexImage2D(GL_TEXTURE_2D, 0, 3, txtre[i-1]->sizeX, txtre[i-1]->sizeY, 0, GL_RGB, GL_UNSIGNED_BYTE, txtre[i-1]->data);
+        }
+    }
+</pre>
+В начале объявляется массив из 12 указателей на картинки, которые мы загрузим из <b>bmp</b> файлов, а далее в цикле загружаем текстуры в буфер текстур и настраиваем свойства. Я думаю, что перечислять назначение всех функций и их аргументы, это просто повторять <b>MSDN</b>, но в по сути происходит следующее - <b>glBindTexture</b> как бы индексирует текстуру в буфере текстур, <b>glPixelStorei</b> - устанавливает режим <b>pixel storage</b>, <b>glTexParameteri</b> и <b>glexEnvf</b> - устанавливают многочисленные параметры текстур, посмотрите <b>MSDN</b>, его (MSDN) профи пишут, не в пример мне. Ну, а <b>glTexImage2D</b> собственно загружает текстуру.
+<p>В <b>Initial</b> добавился вызов функции <b>LoadGLTexture</b>. Изменения в <b>Draw</b>:
+<Pre>
+    glEnable (GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,TexNum);
+</pre>
+Соответственно включают режим текстурирования и выбирают текстуру по номеру из тех, что лежат в буфере.
+<pre>
+    glBegin(GL_QUADS);
+    glNormal3f(0.0, 0.0, -1.0);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 1.0f, -1.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, -1.0f, -1.0f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, 1.0f, -1.0f);
+
+    glNormal3f(0.0, 0.0, 1.0);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 1.0f, 1.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, -1.0f, 1.0f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, -1.0f, 1.0f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 1.0f);
+
+    glNormal3f(1.0, 0.0, 0.0);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(1.0f, 1.0f, 1.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, 1.0f, -1.0f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, -1.0f, -1.0f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, -1.0f, 1.0f);
+
+    glNormal3f(-1.0, 0.0, 0.0);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, -1.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(-1.0f, -1.0f, 1.0f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 1.0f);
+
+    glNormal3f(0.0, 1.0, 0.0);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, -1.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, 1.0f, -1.0f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, 1.0f, 1.0f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 1.0f);
+
+    glNormal3f(0.0, -1.0, 0.0);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(1.0f, -1.0f, -1.0f);
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, -1.0f, 1.0f);
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f, 1.0f);
+    glEnd();
+
+    glDisable(GL_TEXTURE_2D);
+
+    Xrot += 0.1f;
+    Yrot += 0.2f;
+    Zrot += 0.25f;
+
+    if(Fm)
+    {
+        TexNum++;
+        if(TexNum == 13)
+            TexNum = 1;
+        Fm = FALSE;
+    }
+</pre>
+Далее мы просто рисуем куб, при этом с каждой вершиной грани связываем соответствующий угол текстуры, выключаем текстурирование, увеличиваем углы поворотов, проверяем не пора ли нам переключиться на следующую в буфере текстуру. Если да, то проверяем выход за пределы карты мира, т.е. у нас всего 12 картинок и если уже 12-я, то опять на 1-ю.
+<p>И последнее изменение касается <b>WinMain</b>:
+<pre>
+    LoopCount++;
+    if(LoopCount >= FRAME_RATE)
+    {
+        Fm = TRUE;
+        LoopCount = 0;
+    }
+
+    Draw();
+    SwapBuffers(hDC);
+</pre>
+Просто и не затейливо увеличиваем счетчик при каждом проходе цикла, как только он больше чем задано, включаем условие переключения картинки и обнуляем счетчик.
+<p>И последнее - не забудте в настройке проекта добавить библиотеки: <b>opengl32.lib; glu32.lib; glaux.lib;</b>
+<p><hr><center><font size=2><a href=prog/13.zip>Загрузить проект</a> | <a href=12.html>Предыдущий шаг</a> | <a href=14.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

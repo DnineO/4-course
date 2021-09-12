@@ -1,0 +1,44 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 33 - gluPerspective.</h2></font>
+Для задания перспективы не обязательно пользоваться только командами основной библиотеки <b>open32.lib</b>. В комплект поставки <b>OpenGL</b> входит вспомогательная библиотека <b>glu32.lib</b>. Она имеет много хороших функций, которые упрощают жизнь, одна из таких функций - <b>gluPerspective</b>.
+<p>Возьмем предыдущий пример и немного исправим функцию <b>OnDraw(...)</b>:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+	CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0);
+	glClear (GL_COLOR_BUFFER_BIT);
+
+	glColor3f (1.0, 0.0, 0.5);
+
+	glLoadIdentity();
+
+	gluPerspective(30.0f, clientRect.right/clientRect.bottom, 1.0f, 15.0f);
+	glTranslatef(0.0, 0.0, -10.0);
+
+	glRotatef(30.0, 1.0, 0.0, 0.0);
+	glRotatef(70.0, 0.0, 1.0, 0.0);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	DrawCube();
+
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+Вот собственно и все. Просто заменили функцию <b>glFurstum</b> на <b>glPerspective</b>.
+<p><hr><center><font size=2><a href=prog/33.zip>Загрузить проект</a> | <a href=32.html>Предыдущий шаг</a> | <a href=34.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

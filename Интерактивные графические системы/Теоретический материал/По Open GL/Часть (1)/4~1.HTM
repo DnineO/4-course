@@ -1,0 +1,87 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 4 - Взгяд со стороны</h2></font>
+<h3>Создание проекта</h3>
+Будем работать со старым. 
+
+<h3>Создаем код</h3>
+<pre>
+#include "afxwin.h"
+#include "GL/gl.h"
+#include "GL/glu.h"
+#include "GL/glaux.h"
+
+void myinit(void);
+void CALLBACK display(void);
+ 
+void myinit (void)
+{
+}
+
+void CALLBACK display (void)
+{
+glMatrixMode (GL_PROJECTION);
+glLoadIdentity();
+gluPerspective (130, 1, 50, 0);
+glMatrixMode (GL_MODELVIEW);
+glLoadIdentity ();
+gluLookAt (150, 150, 150, 0, 0, 0, 0, 100, 0);
+glColor3f(1,0,0);
+glBegin(GL_LINE_LOOP);
+glColor3f(1,0,0);
+glVertex3f (0, 0, 0);
+glVertex3f (200, 0, 0);
+glEnd();
+glBegin(GL_LINE_LOOP);
+glColor3f(0,1,0);
+glVertex3f (0, 0, 0);
+glVertex3f (0, 200, 0);
+glEnd();
+glBegin(GL_LINE_LOOP);
+glColor3f(0,0,1);
+glVertex3f (0, 0, 0);
+glVertex3f (0, 0, 200);
+glEnd(); 
+glFlush();
+}
+
+int main(int argc, char** argv)
+{
+auxInitDisplayMode (AUX_SINGLE | AUX_RGB);
+auxInitPosition (0, 0, 500, 500);
+auxInitWindow ("1-6");
+myinit ();
+auxMainLoop (display);
+return(0);
+}
+</pre>
+<h3>Описание</h3>
+Итак, что добавилось <b>glMatrixMode (GL_PROJECTION);</b> говорит о том, что команды относятся к проекту.
+<P><b>glLoadIdentity();</b> считывает текущую матрицу. 
+<p><b>gluPerspective (130, 1, 50, 0);</b> Настройка перспективы просмотра. Нам сейчас интересны первые два параметра. Первый параметр это охват в градусах от 0 до 180. Можете воспринимать его как обьектив на фотоаппарате. Либо все но мелкое , либо большое но одно. Создав и запустив проект, поменяейте это параметр, вы увидите изменение изображения больше-меньше. Посмотрите на рисунок ниже. Второй параметр это угол поворота по оси Y. Да бог с ним. Главное первый параметр. 
+<p><img src="glpic1.gif" ALT="glpic1.gif (893b)">
+<p><b>glMatrixMode (GL_MODELVIEW);</b> говорит о том, что работы будет теперь просмотром, а не проектом. Это важно. Дело в том , что проект и просмотр имеют разницу. Зачастую необходимо поворачивать фигуры друг относительно друга и т.п. это делается в разных матрицах и т.д. Ну это на примерах понятнее будет надеюсь. А пока факт. Перспективу для проекта, а взгляд для просмотра.
+<p><b>gluLookAt (150, 150, 150, 0, 0, 0, 0, 100, 0);</b> Устанавливает точку наблюдения, камеру. Первые параметры <b>откуда (x,y,z)</b> и <b>куда (x,y,z)</b>. Это пока главное. 
+<p><img src="glpic2.gif" ALT="glpic2.gif (724b)">
+<p>Поэкспениментируйте с первыми тремя или вторыми тремя параметрами. Угол взгляда будет меняться. Лучше менять параметры на 2 - 5 единиц и у одной координаты, чтобы не потеряться.
+
+<hr>
+<h3>Шпаргалка</h3>
+Установите перспективу 
+<pre>
+glMatrixMode (GL_PROJECTION);
+glLoadIdentity();
+gluPerspective (130, 1, 50, 0);
+</pre>
+Угол взгляда 
+<pre>
+glMatrixMode (GL_MODELVIEW);
+glLoadIdentity ();
+gluLookAt (150, 150, 150, 0, 0, 0, 0, 100, 0);
+</pre>
+<p><hr><center><font size=2><a href=3.html>Предыдущий шаг</a> | <a href=5.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kaev@yandex.ru">Artem</a>.</center></body></html>

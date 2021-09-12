@@ -1,0 +1,67 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 34 - gluLookAt.</h2></font>
+Это маленький шаг, в котором я просто решил показать как можно обойтись без операций начального сдвига и поворотов.
+<p>В дополнительной библиотеке <b>OpenGL glu32.lib</b> существует функция <b>gluLookAt</b>, которая принимает 9! аргументов.
+<p>Первые 3 - координаты позиции глаза налюдателя, вторые 3 - координаты точки, распологающейся в центре экрана, третьи 3 - направление вектора, задающего поворот сцены.
+<p>Для демонстрации этой функции я, как обычно, сделал простой пример. Опять сделал пункт меню, который будет вызвать диалог для установки всех 9-ти параметров этой функции. Сделал сам диалог и установил соответствующие переменные для полей ввода. В классе <b>C...View</b> сделал массив <b>GLfloat m_Par[9]</b>. Сюда в обработчике пункта меню заношу преобразованные  в числовой вид значения полей ввода из диалога.
+<p>В функции <b>OnDraw(...)</b> просто подставляем эти значения как аргументы функции:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+	CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0);
+	glClear (GL_COLOR_BUFFER_BIT);
+
+	glColor3f (1.0, 0.0, 0.5);
+
+	glLoadIdentity();
+	gluPerspective(70.0, clientRect.right / clientRect.bottom, 2.0, 10.0);
+	gluLookAt (m_Par[0], m_Par[1], m_Par[2], m_Par[3], 
+		m_Par[4], m_Par[5], m_Par[6], m_Par[7], m_Par[8]);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	DrawCube();
+
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+Обработчик меню выглядит так:
+<pre>
+void CExampleView::OnViewParam() 
+{
+	// TODO: Add your command handler code here
+	CParDlg dlg;
+	
+	if(dlg.DoModal()==IDOK)
+	{
+		m_Par[0] = (float)atof(dlg.m_Eyes_X);
+		m_Par[1] = (float)atof(dlg.m_Eyes_Y);
+		m_Par[2] = (float)atof(dlg.m_Eyes_Z);
+		m_Par[3] = (float)atof(dlg.m_Point_X);
+		m_Par[4] = (float)atof(dlg.m_Point_Y);
+		m_Par[5] = (float)atof(dlg.m_Point_Z);
+		m_Par[6] = (float)atof(dlg.m_Vector_X);
+		m_Par[7] = (float)atof(dlg.m_Vector_Y);
+		m_Par[8] = (float)atof(dlg.m_Vector_Z);
+	}
+	InvalidateRect(NULL, FALSE);
+}
+</pre>
+На этом все сложности закончились. Поэкспериментируйте с цифрами, можно добится интересных результатов ;)
+<p><b>P.S.</b> Незабудьте включить заголовочный файл диалога в файл ...<b>View.cpp</b>
+<p><hr><center><font size=2><a href=prog/34.zip>Загрузить проект</a> | <a href=33.html>Предыдущий шаг</a> | <a href=35.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

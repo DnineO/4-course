@@ -1,0 +1,80 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 22 - Тире, точка, тире.</h2></font>
+Посмотрим как нарисовать азбуку морзе. Для этого создадим обычный проект и сделаем необходимые дополнения для <b>OpenGL</b>, как в предыдущих примерах.
+<p>Для того, чтобы сконцентрироваться на работе шаблонов создадим функцию, которая будет рисовать линию. Назовем ее скажем <b>DrawLine(...)</b>:
+<pre>
+void CExampleView::DrawLine(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2)
+{
+	CRect rect;
+
+	GetClientRect(&rect);
+	glBegin(GL_LINES);
+		glVertex2f(2*x1/rect.right - 1.0f, y1/rect.bottom - 0.5f);
+		glVertex2f(2*x2/rect.right - 1.0f, y2/rect.bottom - 0.5f);
+	glEnd();
+}
+</pre>
+Теперь изменим функцию <b>OnDraw(...)</b>:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glColor3f (1.0, 0.0, 0.5);          // текущий цвет примитивов
+
+	glEnable(GL_LINE_STIPPLE);
+
+	glLineWidth (5);				// === толщина 5
+
+	glLineStipple(1, 0x0101);			// точечный
+	DrawLine(50.0, 125.0, 150.0, 125.0);
+
+	glLineStipple(1, 0x00F0);			// штриховой
+	DrawLine(150.0, 125.0, 250.0, 125.0);
+
+	glLineStipple(1, 0x1C47);			// штрихпунктир
+	DrawLine(250.0, 125.0, 350.0, 125.0);
+
+	glLineWidth (20);				// === толщина 20
+
+	glLineStipple(1, 0x0101);
+	DrawLine(50.0, 50.0, 150.0, 50.0);
+
+	glLineStipple(1, 0x00F0);
+	DrawLine(150.0, 50.0, 250.0, 50.0);
+
+	glLineStipple(1, 0x1C47);			// тире, точка, тире
+	DrawLine(250.0, 50.0, 350.0, 50.0);
+
+	glLineWidth (5);
+
+	glLineStipple(5, 0x1C47);
+	DrawLine(50.0, 10.0, 150.0, 10.0);
+}
+</pre>
+Обратите внимание на пару команд <b>glEnable(GL_LINE_STIPPLE)</b> и <b>glLineStipple(1, 0x0101)</b>. Первая из них включает пунктирный режим, а вторая задает вид пунктира. Естественно пунктир задается в виде битовой маски.
+<p>Вот и все.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol><li>Создать проект.
+<li>Включить пунктирный режим и установить нужный пунктир.
+<li>Рисовать.
+</ol>
+<p><b>P.S.</b> Как и большинство команд <b>OpenGL</b>, команда включения пунктира имеет и команду выключения, т.е. <b>glDisable(GL_LINE_STIPPLE)</b>. А установленный вид пунктира действует на все линии, которые лежат ниже команды установки. Чтобы отключить пунктир надо либо сделать прозрачную маску, либо отключить режим вообще.
+<p><hr><center><font size=2><a href=prog/22.zip>Загрузить проект</a> | <a href=21.html>Предыдущий шаг</a> | <a href=23.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

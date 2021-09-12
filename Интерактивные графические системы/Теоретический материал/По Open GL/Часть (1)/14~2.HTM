@@ -1,0 +1,41 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 14 - Да будет свет.</h2></font>
+Ну что? Прикольный телек? Если не понравился - пишите. Я его стукну, он станет фиолетовым в крапинку.
+<p>Давайте теперь добавим к нему точечный источник света. Источник разместим в углу с координатами <b>x=1, y=1, z=1</b>, эти цифры мы поместим в массив: <b>GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };</b> , а интенсивность его сделаем такой r=1, g=1, b=1, эти цифры поместим в массивчик <b>GLfloat light_diffuse[] = {1.0, 1.0, 1.0, 1.0};</b>. Как вы догадываетесь - это глобальные переменные. Кроме того в глобальные переменные еще добавим <b>BOOL lp;</b> Нужна она для того, что бы нажимая на кнопочку 'L' на клавиатуре можно было бы включать и выключать свет.
+<p>Изменениям, естественно, подверглась функция <b>Initial</b>
+<pre>
+glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+glEnable(GL_LIGHTING);
+glEnable(GL_LIGHT0);
+
+lp = TRUE;
+</pre>
+Функция <b>glLightfv</b> устанавливает интенсивность света и его положение. В <b>OpenGL</b> источники света все наперечет: первый источник <b>GL_LIGHT0</b>, второй <b>GL_LIGHT1</b> и т.д. У нас только один источник, так что работаем с <b>GL_LIGHT0</b>. Попробуйте изменить, например, значение <b>diffuse</b> на 1.0f, 0.0f, 1.0f, 1.0f, увидите страшный, красный телевизор!. 
+<P>Для того, что бы увидеть разницу между освещенным и не освещенным объектом сделаем обработчик клавиши 'L':
+<pre>
+case WM_KEYDOWN:
+    if(wParam == VK_ESCAPE)
+    SendMessage(hWnd, WM_DESTROY, wParam, lParam);
+    if(wParam == 'L') {
+        if(lp == TRUE) {
+            glDisable(GL_LIGHTING);
+            glDisable(GL_LIGHT0);
+            lp = FALSE;
+        } else {
+            glEnable(GL_LIGHTING);
+            glEnable(GL_LIGHT0);
+            lp = TRUE;
+        }
+    }
+break;
+</pre>
+Думаю, что комментарии тут не нужны.
+<p><hr><center><font size=2><a href=prog/14.zip>Загрузить проект</a> | <a href=13.html>Предыдущий шаг</a> | <a href=15.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

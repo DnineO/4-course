@@ -1,0 +1,50 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 17 - ViewPort.</h2></font>
+В этом шаге мы посмотрим как работает режим сглаживания для точек и разберемся, что же такое <b>viewport</b>.
+<p>Сделайте все те же действия, что и в <a href=16.html>шаге 16</a>, т.е. создайте проект и добавьте в него <b>OpenGL</b>.
+<p>Все изменения будут касаться только функции <b>OnDraw</b>. Вот код этой функции:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right/2, clientRect.bottom/2);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glEnable(GL_POINT_SMOOTH);
+
+	glPointSize (20);                   // размер точек
+	glColor3f (1.0, 0.0, 0.5);          // текущий цвет примитивов
+	glBegin (GL_POINTS);
+		glVertex2f (-1, -1);
+		glVertex2f (-1, 1);
+		glVertex2f (0, 0);
+		glVertex2f (1, -1);
+		glVertex2f (1, 1);
+	glEnd();
+
+	glDisable(GL_POINT_SMOOTH);
+}
+</pre>
+Здесь следует обратить внимание на команду <b>glEnable(GL_POINT_SMOOTH)</b>, которая включает сглаживания для точек и на команду <b>glViewport(...)</b>, которая определяет область вывода в окне. Скомпилируйте программку и посмотрите что получилось.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol>
+<li>создать проект <b>MFC</b>
+<li>сделать его <b>OpenGL</b>-ным
+<li>в код ф-ции <b>OnDraw</b> добавить команды сглаживания и определения области вывода.
+</ol>
+<p><hr><center><font size=2><a href=prog/17.zip>Загрузить проект</a> | <a href=16.html>Предыдущий шаг</a> | <a href=18.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

@@ -1,0 +1,70 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 27 - Характеристики вашего Акселератора.</h2></font>
+У многих пользователей часто возникает вопрос: "Как определить возможности видео адаптера?" Какие расширения <b>OpenGL</b> ваш адаптер может реализовать аппаратно, а какие будут эмулированы програмно?
+<p>Сделать это очень просто.
+Возьмем наш старый добрый проект, уберем из него все излишки.
+<p>Мы ничего не будем рисовать, поэтому функция <b>OnDraw(...)</b> будет почти пустой. Чтобы не напрягаться с "правильным" выводом на экран все неоходимые данные мы выведем в файл.
+<p>Итак, после всех изменений функция <b>OnDraw(...)</b> будет выглядеть так:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+	CFile cf;
+	char ch[2] = {13, 10};	// это символ конца строки ;))
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+
+	cf.Open("Property.txt", CFile::modeCreate | CFile::modeWrite);
+ 
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (1.0, 1.0, 1.0, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	m_pVendor = glGetString(GL_VENDOR);
+	m_pVersion = glGetString(GL_VERSION);
+	m_pRenderer = glGetString(GL_RENDERER);
+	m_pExtensions = glGetString(GL_EXTENSIONS);
+
+	cf.Write("Производитель: ", strlen("Производитель: "));
+	cf.Write(m_pVendor, strlen((const char*)m_pVendor));
+	cf.Write(&ch,2);
+
+	cf.Write("Версия: ", strlen("Версия: "));
+	cf.Write(m_pVersion, strlen((const char*)m_pVersion));
+	cf.Write(&ch,2);
+
+	cf.Write("Рендер: ", strlen("Рендер: "));
+	cf.Write(m_pRenderer, strlen((const char*)m_pRenderer));
+	cf.Write(&ch,2);
+
+	cf.Write("Расширения: ", strlen("Расширения: "));
+	cf.Write(m_pExtensions, strlen((const char*)m_pExtensions));
+	cf.Write(&ch,2);
+
+	cf.Close();
+
+	SwapBuffers(pDC->m_hDC);
+
+	pDC->TextOut(10,10, "Данные о вашем видеоадаптере записаны в файл Property.txt");
+}
+</pre>
+С помощью функции <b>glGetString(...) OpenGL</b> позволяет получить 4 типа данных о железе: Производитель, Версия, Чипсет, Расширения. Все они выводятся в нашем приложении.
+<p>Кстати, обратите внимание, что после переключения буффера мы можем воспользоваться стандартными функциями вывода графики <b>GDI</b>, хотя ... это чисто академический случай. В обычном приложении такая халява не пройдет ;).
+<hr>
+<h3>Шпаргалка.</h3>
+<ol><li>Не надо делать ничего лишнего. Просто получите с помощью <b>glGetString(...)</b> все текстовые строки и выведите их куда-нибудь.
+</ol>
+P.S. Информацию о том, что означает каждое расширение можно получить 
+на <a href=http://opengl.rdc.ru/docs/dreviews/1999-02-15.phtml>http://opengl.rdc.ru/docs/dreviews/1999-02-15.phtml</a>
+<p><hr><center><font size=2><a href=prog/27.zip>Загрузить проект</a> | <a href=26.html>Предыдущий шаг</a> | <a href=28.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

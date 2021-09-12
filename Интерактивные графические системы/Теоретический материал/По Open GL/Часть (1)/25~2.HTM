@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 25 - Треугольник. Режимы STRIP и FAN.</h2></font>
+Как и было обещано, рассматриваем еще два режима рисования треугольников <b>STRIP</b> и <b>FAN</b>.
+<p>Как обычно делаем стандартный проект, создадим переменную <b>m_bMode</b>, которая позволит переключаться между режимами <b>STRIP</b> и <b>FAN</b>. Сделаем обработчик левой кнопки:
+<pre>
+void CExampleView::OnLButtonDown(UINT nFlags, CPoint point) 
+{
+	// TODO: Add your message handler code here and/or call default
+	if(m_bMode)
+		m_bMode = FALSE;
+	else
+		m_bMode = TRUE;
+	InvalidateRect(NULL, FALSE);
+	CView::OnLButtonDown(nFlags, point);
+}
+</pre>
+Новая <b>OnDraw(...)</b> будет выглядеть так:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glLineWidth (20);                   // размер точек
+
+	glShadeModel(GL_SMOOTH);
+
+	if(m_bMode)
+	{
+		glColor3f (1.0, 0.0, 0.5);
+		glBegin (GL_TRIANGLE_STRIP);
+			for(int i=0; i&lt;=6; i++)
+			{
+				glVertex2f(0.0f, 0.0f);
+				glVertex2f(0.5f*(float)cos(2*Pi*i/6),
+				0.5f*(float)sin(2*Pi*i/6));
+			}
+		glEnd();
+	}
+	else
+	{
+		glColor3f (1.0, 0.5, 0.5);
+		glBegin (GL_TRIANGLE_FAN);
+		glVertex2f(0.0f, 0.0f);
+		for(int i=0; i<=6; i++)
+			glVertex2f(0.5f*(float)cos(2*Pi*i/6),
+			0.5f*(float)sin(2*Pi*i/6));
+		glEnd();
+	}
+}
+</pre>
+Ну вот и все. Мне кажется, что отличие режима <b>STRIP</b> от <b>FAN</b> очевидно. В режиме <b>FAN</b> - общая вершина, в режиме <b>STRIP</b> - общая грань.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol><li>Хватит смотреть в шпаргалку.
+<li>Берешь и делаешь.
+</ol>
+<p><hr><center><font size=2><a href=prog/25.zip>Загрузить проект</a> | <a href=24.html>Предыдущий шаг</a> | <a href=26.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

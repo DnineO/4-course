@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 18 - Бегаем за Мышью.</h2></font>
+В этом шаге мы будем обрабатывать движения мыши. Будем выводить жирную точку под курсором мыши. Сделать это в <b>MFC</b> очень просто, но для правильного отображения точки понадобится несколько изменений.
+<p>Во-первых создадим проект и настроим его как в предыдущих шагах. Затем надо добавить еще один флаг в структуру <b>PIXELFORMATDESCRIPTOR</b>:
+<pre>
+	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+</pre>
+Это флаг <b>PFD_DOUBLEBUFFER</b>. 
+<p>Переменную <b>CDC* pDC</b> стоит сделать членом класса <b>C...View</b>, т.е. внести ее в раздел <b>private</b> этого класса.
+<p>Создадим еще пару переменных, которые будут хранить координаты мыши. Назовем их <b>m_XMousePos</b> и <b>m_YMousePos</b>. Теперь добавим обработчик движения мыши, т.е. <b>OnMouseMove</b>:
+<pre>
+void CExampleView::OnMouseMove(UINT nFlags, CPoint point) 
+{
+	// TODO: Add your message handler code here and/or call default
+	CRect rectClient;
+
+	GetClientRect(&rectClient);
+
+	m_XMousePos = (float)(2*point.x)/(float)(rectClient.right)-1;
+	m_YMousePos = (float)(2*(rectClient.bottom-point.y))/
+		(float)(rectClient.bottom)-1;
+
+	CView::OnLButtonDown(nFlags, point);
+	InvalidateRect(NULL, FALSE);
+	
+	CView::OnMouseMove(nFlags, point);
+}
+</pre>
+Все, что мы делаем в этом обработчике - это вычисляем координаты мыши в системе координат <b>OpenGL</b>. В конце мы вызываем функцию <b>InvalidateRect(NULL, FALSE)</b>. Делаем мы это для того, чтобы перерисовать окно, т.е просим <b>MFC</b> вызвать функцию <b>OnDraw</b>.
+<p>Теперь посмотрим изменения в функции <b>OnDraw</b>:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glPointSize (30);                   // размер точек
+	glColor3f (1.0, 0.0, 0.5);          // текущий цвет примитивов
+
+	glPointSize(20);
+	glBegin (GL_POINTS);
+		glVertex2f(m_XMousePos, m_YMousePos);
+	glEnd();
+	glDisable(GL_POINT_SMOOTH);
+	SwapBuffers(pDC->m_hDC);
+}
+</pre>
+В целом здесь почти ничего не изменилось, добавили только функцию <b>SwapBuffers(pDC->m_hDC)</b>. Её смысл - переключить буффер отображения. Благодаря ей мы можем добиться плавного отображения точки.
+<p>Попробуйте убрать флаг <b>PFD_DOUBLEBUFFER</b> и закоментируйте функцию <b>SwapBuffer(...)</b>. Что получилось? Правильно, мерцание точки.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol>
+<li>создать проект.
+<li>включить двойную буфферизацию.
+<li>сделать обработчик мыши.
+<li>рисовать точку и переключать буффер.
+</ol>
+<p><hr><center><font size=2><a href=prog/18.zip>Загрузить проект</a> | <a href=17.html>Предыдущий шаг</a> | <a href=19.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>

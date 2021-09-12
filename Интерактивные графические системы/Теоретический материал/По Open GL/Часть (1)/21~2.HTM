@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=win-1251">
+</head>
+<body text=black bgcolor=white link=blue vlink=blue alink=red>
+<link rel=stylesheet type=text/css href=../../1.css>
+<font color=red><h2 align=center>Шаг 21 - Линии.</h2></font>
+В этом шаге рассмотрим рисование обычных линий.
+<p>Как обычно создадим <b>MFC</b> проект, сделаем все необходимые дополнения для <b>OpenGL</b>. Добавим переменную <b>BOOL m_Strip</b> как <b>private</b> элемент класса <b>C...View</b>. Добавим обработчик <b>OnLButtonDown(...)</b>:
+<pre>
+void CExampleView::OnLButtonDown(UINT nFlags, CPoint point) 
+{
+	// TODO: Add your message handler code here and/or call default
+	if(m_Strip)
+		m_Strip = FALSE;
+	else
+		m_Strip = TRUE;
+	InvalidateRect(NULL, FALSE);
+	CView::OnLButtonDown(nFlags, point);
+}
+</pre>
+В конструкторе класса <b>C...View</b> присвоим этой переменной значение <b>FALSE</b>
+<p>Новая функция <b>OnDraw(...)</b> теперь будет выглядеть так:
+<pre>
+void CExampleView::OnDraw(CDC* pDC)
+{
+    CRect clientRect;
+
+    CExampleDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+
+    // TODO: add draw code for native data here
+    GetClientRect(&clientRect);
+    glViewport(0, 0, clientRect.right, clientRect.bottom);
+
+	glClearColor (0.5, 0.5, 0.75, 1.0); // цвет фона
+	glClear (GL_COLOR_BUFFER_BIT);      // очистка буфера цвета
+
+	glLineWidth (20);                   // размер точек
+	glColor3f (1.0, 0.0, 0.5);          // текущий цвет примитивов
+
+if(!m_Strip)
+	glBegin (GL_LINES);
+else
+	glBegin (GL_LINE_STRIP);
+		glVertex2f(-0.5f,0.5f);
+		glVertex2f(0.5f,-0.5f);
+		glVertex2f(-0.5f,-0.5f);
+		glVertex2f(0.5f,0.5f);
+	glEnd();
+}
+</pre>
+Программа просто рисует диагонали в центре окна, а при нажатии на кнопку мыши замыкает их. Как нетрудно догадаться, рисование линий включается с помощью аргумента <b>GL_LINES</b> функции <b>glBegin</b>. А рисование линий в режиме "последняя точка предыдущей линии - это первая точка следующей" включается аргументом <b>GL_LINE_STRIP</b>.
+<p>Соберите проект и понажимайте левую кнопку мыши.
+<hr>
+<h3>Шпаргалка.</h3>
+<ol>
+<li>Создать <b>OpenGL</b> проект.
+<li>Создать логическую переменную для переключения и присвоить ей значение по умолчанию.
+<li>Создать обработчик мыши и менять значение логический переменной на обратное.
+<li>В <b>OnDraw</b> обрабатывать состояние логической переменной.
+</ol>
+<p><hr><center><font size=2><a href=prog/21.zip>Загрузить проект</a> | <a href=20.html>Предыдущий шаг</a> | <a href=22.html>Следующий Шаг</a> | <a href=opengl1.html>Оглавление</a></font></center>
+<hr><center><font size=2>By <a href="mailto:kirill@scsc.ru@SUBJECT=OpenGLByStep">Kirill V. Ratkin</a>.</center></body></html>
