@@ -1,3 +1,6 @@
 #ignore files .exe and packed
-.exe
-.zip
+*.exe
+*.zip
+*.iso
+*.rar
+*.msi
