@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы\\Lab 1.csproj": {}
+    "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы, 6-10\\Lab 1.csproj": {}
   },
   "projects": {
-    "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы\\Lab 1.csproj": {
+    "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы, 6-10\\Lab 1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы\\Lab 1.csproj",
+        "projectUniqueName": "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы, 6-10\\Lab 1.csproj",
         "projectName": "Lab 1",
-        "projectPath": "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы\\Lab 1.csproj",
+        "projectPath": "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы, 6-10\\Lab 1.csproj",
         "packagesPath": "C:\\Users\\gamet\\.nuget\\packages\\",
-        "outputPath": "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы\\obj\\",
+        "outputPath": "D:\\GIT\\4-course\\ТЯП\\labs\\Lab 1 — 2-5 задания сданы, 6-10\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\gamet\\AppData\\Roaming\\NuGet\\NuGet.Config",
